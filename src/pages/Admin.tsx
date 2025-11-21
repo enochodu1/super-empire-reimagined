@@ -1,8 +1,9 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import allProducts from '@/data/allProducts';
 import { Product, Order } from '@/types/product';
+import { SuperEmpireDB } from '@/lib/database';
+import { COMPANY_INFO } from '@/lib/companyInfo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,14 +22,16 @@ const Admin = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [editedPrices, setEditedPrices] = useState<Record<string, number>>({});
   const [orders, setOrders] = useState<Order[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
-  // Load orders from localStorage
+  // Load products and orders from database
   useEffect(() => {
     if (isAuthenticated) {
-      const savedOrders = localStorage.getItem('superEmpireOrders');
-      if (savedOrders) {
-        setOrders(JSON.parse(savedOrders));
-      }
+      const loadedProducts = SuperEmpireDB.getAllProducts();
+      setProducts(loadedProducts);
+
+      const loadedOrders = SuperEmpireDB.getAllOrders();
+      setOrders(loadedOrders);
     }
   }, [isAuthenticated]);
 
@@ -52,10 +55,14 @@ const Admin = () => {
   };
 
   const handleSavePrices = () => {
-    // In production, this would send to backend
-    localStorage.setItem('priceUpdates', JSON.stringify(editedPrices));
-    toast.success(`Updated prices for ${Object.keys(editedPrices).length} products`, {
-      description: 'Price changes have been saved locally',
+    const updatedCount = SuperEmpireDB.updateMultiplePrices(editedPrices);
+
+    // Reload products to reflect changes
+    const loadedProducts = SuperEmpireDB.getAllProducts();
+    setProducts(loadedProducts);
+
+    toast.success(`Updated prices for ${updatedCount} products`, {
+      description: 'Price changes have been saved with history tracking',
     });
     setEditedPrices({});
   };
@@ -63,7 +70,7 @@ const Admin = () => {
   const handleExportCSV = () => {
     const csv = [
       ['SKU', 'Product Name', 'Category', 'Pack Size', 'Unit', 'Current Price'].join(','),
-      ...allProducts.map(p => [
+      ...products.map(p => [
         p.id,
         `"${p.name}"`,
         p.category,
@@ -90,14 +97,14 @@ const Admin = () => {
   };
 
   const filteredProducts = useMemo(() => {
-    if (!searchQuery) return allProducts;
+    if (!searchQuery) return products;
     const lowerQuery = searchQuery.toLowerCase();
-    return allProducts.filter(p =>
+    return products.filter(p =>
       p.name.toLowerCase().includes(lowerQuery) ||
       p.id.toLowerCase().includes(lowerQuery) ||
       p.subcategory?.toLowerCase().includes(lowerQuery)
     );
-  }, [searchQuery]);
+  }, [products, searchQuery]);
 
   // Login Screen
   if (!isAuthenticated) {

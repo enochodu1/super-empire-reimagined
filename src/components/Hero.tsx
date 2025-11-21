@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MapPin } from "lucide-react";
 import heroImage from "@/assets/hero-produce.jpg";
+import { COMPANY_INFO, getServiceAreaText } from "@/lib/companyInfo";
+import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -20,7 +22,7 @@ export const Hero = () => {
         <div className="max-w-3xl animate-fade-up">
           <div className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 mb-6 glass-hover">
             <MapPin className="w-4 h-4 text-accent-tomato" />
-            <span className="text-white font-medium">Serving OK • AR • LA • TX</span>
+            <span className="text-white font-medium">{getServiceAreaText()}</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
@@ -35,28 +37,32 @@ export const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button variant="hero" size="lg" className="text-lg">
-              Start Your Order
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button variant="outline-light" size="lg" className="text-lg">
-              View Products
-            </Button>
+            <Link to="/products">
+              <Button variant="hero" size="lg" className="text-lg">
+                Start Your Order
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="/products">
+              <Button variant="outline-light" size="lg" className="text-lg">
+                View Products
+              </Button>
+            </Link>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mt-12">
             <div className="glass rounded-2xl p-6 glass-hover text-center">
-              <div className="text-4xl font-bold text-white mb-2">4</div>
+              <div className="text-4xl font-bold text-white mb-2">{COMPANY_INFO.serviceArea.states.length}</div>
               <div className="text-white/80">States Served</div>
             </div>
             <div className="glass rounded-2xl p-6 glass-hover text-center">
-              <div className="text-4xl font-bold text-white mb-2">500+</div>
-              <div className="text-white/80">Business Partners</div>
+              <div className="text-4xl font-bold text-white mb-2">{COMPANY_INFO.operations.fleetSize}</div>
+              <div className="text-white/80">Delivery Trucks</div>
             </div>
             <div className="glass rounded-2xl p-6 glass-hover text-center">
-              <div className="text-4xl font-bold text-white mb-2">24/7</div>
-              <div className="text-white/80">Support Available</div>
+              <div className="text-4xl font-bold text-white mb-2">200+</div>
+              <div className="text-white/80">Products</div>
             </div>
           </div>
         </div>

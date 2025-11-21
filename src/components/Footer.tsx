@@ -1,4 +1,5 @@
 import { MapPin, Phone, Mail } from "lucide-react";
+import { COMPANY_INFO, getFormattedPhone, getCallUrl, getEmailUrl } from "@/lib/companyInfo";
 
 export const Footer = () => {
   return (
@@ -17,7 +18,7 @@ export const Footer = () => {
               </div>
             </div>
             <p className="text-primary-foreground/80 text-sm">
-              Premium wholesale produce for businesses across the Southern United States.
+              {COMPANY_INFO.description.short}
             </p>
           </div>
 
@@ -65,15 +66,19 @@ export const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start space-x-2">
                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span className="text-primary-foreground/80">Serving OK, AR, LA, TX</span>
+                <span className="text-primary-foreground/80">{COMPANY_INFO.address.formatted}</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                <span className="text-primary-foreground/80">(555) 123-4567</span>
+                <a href={getCallUrl()} className="text-primary-foreground/80 hover:text-accent-tomato transition-colors">
+                  {getFormattedPhone()}
+                </a>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                <span className="text-primary-foreground/80">orders@superempire.com</span>
+                <a href={getEmailUrl()} className="text-primary-foreground/80 hover:text-accent-tomato transition-colors">
+                  {COMPANY_INFO.contacts.sales.name}
+                </a>
               </li>
             </ul>
           </div>

@@ -1,9 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { allProducts, getAllSubcategories } from '@/data/allProducts';
+import { getAllSubcategories } from '@/data/allProducts';
 import { Product } from '@/types/product';
 import { useCart } from '@/contexts/CartContext';
+import { SuperEmpireDB } from '@/lib/database';
+import { COMPANY_INFO } from '@/lib/companyInfo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,6 +15,7 @@ import { ShoppingCart, Search, Filter, Package2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Products = () => {
+  const [products, setProducts] = useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>('all');
@@ -20,9 +23,15 @@ const Products = () => {
 
   const { addToCart } = useCart();
 
+  // Load products from database on mount
+  useEffect(() => {
+    const loadedProducts = SuperEmpireDB.getAllProducts();
+    setProducts(loadedProducts);
+  }, []);
+
   // Filter products based on search and filters
   const filteredProducts = useMemo(() => {
-    let filtered = allProducts;
+    let filtered = products;
 
     // Filter by category
     if (selectedCategory !== 'all') {
@@ -45,7 +54,7 @@ const Products = () => {
     }
 
     return filtered;
-  }, [searchQuery, selectedCategory, selectedSubcategory]);
+  }, [products, searchQuery, selectedCategory, selectedSubcategory]);
 
   const subcategories = getAllSubcategories();
 
@@ -80,10 +89,10 @@ const Products = () => {
             Our Product Catalog
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Fresh produce and authentic tortillas delivered to your business across TX, OK, AR, and LA
+            {COMPANY_INFO.serviceArea.description}
           </p>
           <Badge className="mt-4 bg-green-500 text-white">
-            Weekly Prices Updated: 11/17/25 - 11/22/25
+            Weekly Prices Updated: {COMPANY_INFO.pricing.effectiveDate}
           </Badge>
         </div>
 

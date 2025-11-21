@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 import farmImage from "@/assets/farm-field.jpg";
+import { COMPANY_INFO } from "@/lib/companyInfo";
 
 export const About = () => {
   const values = [
@@ -26,8 +27,8 @@ export const About = () => {
               />
             </div>
             <div className="absolute -bottom-6 -right-6 glass-dark text-white p-8 rounded-2xl shadow-2xl backdrop-blur-xl">
-              <div className="text-4xl font-bold mb-1">25+</div>
-              <div className="text-sm text-white/90">Years Experience</div>
+              <div className="text-4xl font-bold mb-1">{COMPANY_INFO.operations.fleetSize}</div>
+              <div className="text-sm text-white/90">Delivery Trucks</div>
             </div>
           </div>
 
@@ -37,9 +38,7 @@ export const About = () => {
               Your Trusted Wholesale Partner
             </h2>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Super Empire Produce has been serving businesses across Oklahoma, Arkansas, Louisiana,
-              and Texas for over two decades. We're committed to delivering the highest quality
-              produce at competitive wholesale prices.
+              {COMPANY_INFO.description.long}
             </p>
 
             <div className="space-y-4 mb-8">
