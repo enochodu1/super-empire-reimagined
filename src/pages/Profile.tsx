@@ -12,8 +12,8 @@ import { Loader2, User, Package, Settings, LogOut } from 'lucide-react';
 import { db } from '@/lib/supabase';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
+import { Navigation } from '@/components/Navigation';
+import { Footer } from '@/components/Footer';
 
 export default function Profile() {
   const { user, profile, signOut, updateProfile, loading: authLoading } = useAuth();
