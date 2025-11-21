@@ -2,32 +2,39 @@ import { useState } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Trash2, Plus, Minus, PackageCheck, Send } from 'lucide-react';
+import { ShoppingCart, Trash2, Plus, Minus, PackageCheck, Send, FileDown, Mail } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Order } from '@/types/product';
+import { sendOrderConfirmation } from '@/lib/emailService';
+import { downloadInvoice } from '@/lib/pdfService';
+import { format } from 'date-fns';
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, getCartTotal, getCartCount } = useCart();
+  const { user, profile } = useAuth();
   const [customerInfo, setCustomerInfo] = useState({
-    businessName: '',
-    contactName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: 'TX',
-    zip: '',
+    businessName: profile?.business_name || '',
+    contactName: profile?.full_name || '',
+    email: profile?.email || '',
+    phone: profile?.phone || '',
+    address: profile?.address || '',
+    city: profile?.city || '',
+    state: profile?.state || 'TX',
+    zip: profile?.zip || '',
     notes: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showInvoiceButton, setShowInvoiceButton] = useState(false);
+  const [lastOrder, setLastOrder] = useState<Order | null>(null);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -70,7 +77,7 @@ const Cart = () => {
       const order: Order = {
         id: `ORD-${Date.now()}`,
         orderNumber: `SEP-${Date.now().toString().slice(-8)}`,
-        customerId: customerInfo.email, // Using email as temp ID
+        customerId: user?.id || customerInfo.email,
         customerName: customerInfo.contactName || customerInfo.businessName,
         customerEmail: customerInfo.email,
         customerPhone: customerInfo.phone,
@@ -85,31 +92,65 @@ const Cart = () => {
         updatedAt: new Date().toISOString(),
       };
 
-      // Save to localStorage (in real app, this would be sent to backend)
+      // Save to localStorage
       const existingOrders = JSON.parse(localStorage.getItem('superEmpireOrders') || '[]');
       localStorage.setItem('superEmpireOrders', JSON.stringify([...existingOrders, order]));
 
-      // Success!
-      toast.success(`Order ${order.orderNumber} submitted successfully!`, {
-        description: 'We will contact you shortly to confirm delivery details.',
-        duration: 5000,
+      // Send email confirmation
+      const itemsSummary = cart
+        .map(item => `${item.quantity}x ${item.name} @ ${formatPrice(item.price)} = ${formatPrice(item.price * item.quantity)}`)
+        .join('\n');
+
+      const emailSent = await sendOrderConfirmation({
+        to_email: customerInfo.email,
+        to_name: customerInfo.contactName || customerInfo.businessName,
+        order_id: order.orderNumber,
+        order_total: formatPrice(total),
+        order_date: format(new Date(), 'MMM dd, yyyy'),
+        business_name: customerInfo.businessName,
+        delivery_address: `${customerInfo.address}, ${customerInfo.city}, ${customerInfo.state} ${customerInfo.zip}`,
+        items_summary: itemsSummary,
       });
 
-      // Clear cart and form
+      // Store last order for PDF generation
+      setLastOrder(order);
+      setShowInvoiceButton(true);
+
+      // Success message
+      if (emailSent) {
+        toast.success(`Order ${order.orderNumber} submitted successfully!`, {
+          description: 'A confirmation email has been sent to ' + customerInfo.email,
+          duration: 6000,
+        });
+      } else {
+        toast.success(`Order ${order.orderNumber} submitted successfully!`, {
+          description: 'We will contact you shortly to confirm delivery details.',
+          duration: 5000,
+        });
+      }
+
+      // Clear cart
       clearCart();
-      setCustomerInfo({
-        businessName: '',
-        contactName: '',
-        email: '',
-        phone: '',
-        address: '',
-        city: '',
-        state: 'TX',
-        zip: '',
-        notes: '',
-      });
 
-      // Simulate email notification
+      // Keep customer info if user is logged in, otherwise clear
+      if (!user) {
+        setCustomerInfo({
+          businessName: '',
+          contactName: '',
+          email: '',
+          phone: '',
+          address: '',
+          city: '',
+          state: 'TX',
+          zip: '',
+          notes: '',
+        });
+      } else {
+        // Just clear notes for logged-in users
+        setCustomerInfo(prev => ({ ...prev, notes: '' }));
+      }
+
+      // Log order details
       console.log('Order submitted:', order);
     } catch (error) {
       console.error('Error submitting order:', error);
@@ -117,6 +158,35 @@ const Cart = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleDownloadInvoice = () => {
+    if (!lastOrder) return;
+
+    downloadInvoice({
+      orderId: lastOrder.orderNumber,
+      orderDate: lastOrder.createdAt,
+      customerName: lastOrder.customerName,
+      businessName: customerInfo.businessName,
+      email: lastOrder.customerEmail,
+      phone: lastOrder.customerPhone,
+      deliveryAddress: customerInfo.address,
+      deliveryCity: customerInfo.city,
+      deliveryState: customerInfo.state,
+      deliveryZip: customerInfo.zip,
+      items: lastOrder.items.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+        subtotal: item.price * item.quantity,
+      })),
+      subtotal: lastOrder.subtotal,
+      tax: lastOrder.tax,
+      total: lastOrder.total,
+      specialInstructions: lastOrder.notes,
+    });
+
+    toast.success('Invoice downloaded successfully!');
   };
 
   if (cart.length === 0) {
@@ -367,9 +437,38 @@ const Cart = () => {
               </form>
             </Card>
 
-            <Card className="bg-blue-50 border-blue-200">
+            {/* Download Invoice Button */}
+            {showInvoiceButton && lastOrder && (
+              <Card className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-green-700 dark:text-green-400">
+                    <PackageCheck className="h-5 w-5" />
+                    Order Confirmed!
+                  </CardTitle>
+                  <CardDescription>
+                    Order #{lastOrder.orderNumber} has been submitted successfully
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button
+                    onClick={handleDownloadInvoice}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <FileDown className="h-4 w-4 mr-2" />
+                    Download Invoice (PDF)
+                  </Button>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+                    <Mail className="h-4 w-4 inline mr-1" />
+                    Confirmation email sent to {customerInfo.email || lastOrder.customerEmail}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            <Card className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
               <CardContent className="pt-6">
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
                   <strong>Note:</strong> This is a wholesale order request. Our team will contact you to confirm pricing, delivery schedule, and payment terms.
                 </p>
               </CardContent>
