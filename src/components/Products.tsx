@@ -45,7 +45,7 @@ export const Products = () => {
           {categories.map((category, index) => (
             <Card
               key={index}
-              className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-fade-up"
+              className="glass-card overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-up border-0"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="relative h-64 overflow-hidden">

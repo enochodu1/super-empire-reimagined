@@ -54,7 +54,7 @@ export const Coverage = () => {
         {/* Features */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {features.map((feature, index) => (
-            <Card key={index} className="text-center animate-scale-in" style={{ animationDelay: `${index * 100}ms` }}>
+            <Card key={index} className="glass-card text-center animate-scale-in border-0" style={{ animationDelay: `${index * 100}ms` }}>
               <CardContent className="pt-8 pb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
                   <feature.icon className="w-8 h-8 text-primary" />
@@ -69,7 +69,7 @@ export const Coverage = () => {
         {/* States Coverage */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {states.map((state, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow animate-fade-up" style={{ animationDelay: `${index * 100}ms` }}>
+            <Card key={index} className="glass-card hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 animate-fade-up border-0" style={{ animationDelay: `${index * 100}ms` }}>
               <CardContent className="p-6">
                 <div className="flex items-start space-x-3 mb-4">
                   <MapPin className="w-5 h-5 text-accent-tomato mt-1 flex-shrink-0" />

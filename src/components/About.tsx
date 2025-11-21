@@ -18,16 +18,16 @@ export const About = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Image */}
           <div className="relative animate-fade-up">
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-white/20">
               <img
                 src={farmImage}
                 alt="Farm field"
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground p-8 rounded-2xl shadow-xl">
+            <div className="absolute -bottom-6 -right-6 glass-dark text-white p-8 rounded-2xl shadow-2xl backdrop-blur-xl">
               <div className="text-4xl font-bold mb-1">25+</div>
-              <div className="text-sm">Years Experience</div>
+              <div className="text-sm text-white/90">Years Experience</div>
             </div>
           </div>
 
