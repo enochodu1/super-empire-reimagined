@@ -69,6 +69,7 @@ export const TableView = ({
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50">
+              <TableHead className="w-[60px] font-semibold">Image</TableHead>
               <TableHead className="w-[250px] font-semibold">Product Name</TableHead>
               <TableHead className="font-semibold">Category</TableHead>
               <TableHead className="font-semibold">Subcategory</TableHead>
@@ -103,6 +104,18 @@ export const TableView = ({
                       transform: `translateY(${virtualRow.start}px)`,
                     }}
                   >
+                    <TableCell>
+                      {product.image ? (
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-10 h-10 object-cover rounded"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 bg-gray-100 rounded" />
+                      )}
+                    </TableCell>
                     <TableCell className="font-medium">{product.name}</TableCell>
                     <TableCell>
                       <Badge variant="outline" className="capitalize">

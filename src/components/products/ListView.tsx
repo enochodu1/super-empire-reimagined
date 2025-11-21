@@ -26,9 +26,20 @@ export const ListView = ({
           key={product.id}
           className="flex items-center gap-4 p-4 border rounded-lg hover:bg-muted/30 transition-colors"
         >
-          {/* Image placeholder */}
-          <div className="w-32 h-32 shrink-0 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center">
-            <Package2 className="w-12 h-12 text-green-600" />
+          {/* Product Image */}
+          <div className="w-32 h-32 shrink-0 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+            {product.image ? (
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+                <Package2 className="w-12 h-12 text-green-600" />
+              </div>
+            )}
           </div>
 
           {/* Details */}
