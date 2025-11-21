@@ -1,9 +1,14 @@
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
-import { Products } from "@/components/Products";
 import { GlassFeatures } from "@/components/GlassFeatures";
+import { Products } from "@/components/Products";
+import { SeasonalHighlights } from "@/components/SeasonalHighlights";
+import { HowItWorks } from "@/components/HowItWorks";
 import { Coverage } from "@/components/Coverage";
+import { Testimonials } from "@/components/Testimonials";
 import { About } from "@/components/About";
+import { FAQ } from "@/components/FAQ";
+import { Newsletter } from "@/components/Newsletter";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 
@@ -14,8 +19,13 @@ const Index = () => {
       <Hero />
       <GlassFeatures />
       <Products />
+      <SeasonalHighlights />
+      <HowItWorks />
       <Coverage />
+      <Testimonials />
       <About />
+      <FAQ />
+      <Newsletter />
       <CTA />
       <Footer />
     </div>
