@@ -4,6 +4,12 @@ export type ProductCategory = 'produce' | 'tortilla' | 'dairy';
 
 export type ProductUnit = 'LBS' | 'CT' | 'PACK' | 'DZ' | 'OZ';
 
+export interface PriceTier {
+  minQuantity: number;
+  price: number;
+  discount?: number; // percentage off
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -18,6 +24,7 @@ export interface Product {
   image?: string;
   sku?: string;
   minOrderQuantity?: number;
+  priceTiers?: PriceTier[]; // Bulk pricing
 }
 
 export interface CartItem {
@@ -68,4 +75,15 @@ export interface PriceUpdate {
   effectiveDate: string;
   updatedBy: string;
   updatedAt: string;
+}
+
+export interface ShoppingList {
+  id: string;
+  name: string; // "Monday Order", "Weekly Staples"
+  description?: string;
+  items: { productId: string; quantity: number }[];
+  customerId?: string;
+  createdAt: string;
+  updatedAt: string;
+  isFavorite?: boolean;
 }

@@ -8,11 +8,19 @@ import { SuperEmpireDB } from '@/lib/database';
 import { COMPANY_INFO } from '@/lib/companyInfo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ShoppingCart, Search, Filter, Package2 } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Search, Filter, Clock, BookMarked } from 'lucide-react';
+import Fuse from 'fuse.js';
+
+// Import all view components
+import { ViewSwitcher, ViewMode } from '@/components/products/ViewSwitcher';
+import { GridView } from '@/components/products/GridView';
+import { ListView } from '@/components/products/ListView';
+import { TableView } from '@/components/products/TableView';
+import { CompactView } from '@/components/products/CompactView';
+import { QuickActions } from '@/components/products/QuickActions';
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -20,6 +28,12 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>('all');
   const [quantityInputs, setQuantityInputs] = useState<Record<string, number>>({});
+
+  // View mode with localStorage persistence
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    const saved = localStorage.getItem('superempire_view_mode');
+    return (saved as ViewMode) || 'grid';
+  });
 
   const { addToCart } = useCart();
 
@@ -29,11 +43,26 @@ const Products = () => {
     setProducts(loadedProducts);
   }, []);
 
+  // Persist view mode to localStorage
+  useEffect(() => {
+    localStorage.setItem('superempire_view_mode', viewMode);
+  }, [viewMode]);
+
+  // Fuzzy search with Fuse.js
+  const fuse = useMemo(() => {
+    return new Fuse(products, {
+      keys: ['name', 'subcategory', 'id', 'category'],
+      threshold: 0.3, // 0 = perfect match, 1 = match anything
+      includeScore: true,
+      minMatchCharLength: 2,
+    });
+  }, [products]);
+
   // Filter products based on search and filters
   const filteredProducts = useMemo(() => {
     let filtered = products;
 
-    // Filter by category
+    // Filter by category first
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(p => p.category === selectedCategory);
     }
@@ -43,18 +72,15 @@ const Products = () => {
       filtered = filtered.filter(p => p.subcategory === selectedSubcategory);
     }
 
-    // Filter by search query
-    if (searchQuery) {
-      const lowerQuery = searchQuery.toLowerCase();
-      filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(lowerQuery) ||
-        p.subcategory?.toLowerCase().includes(lowerQuery) ||
-        p.id.toLowerCase().includes(lowerQuery)
-      );
+    // Apply fuzzy search if query exists
+    if (searchQuery && searchQuery.length >= 2) {
+      const fuseResults = fuse.search(searchQuery);
+      const searchedIds = new Set(fuseResults.map(r => r.item.id));
+      filtered = filtered.filter(p => searchedIds.has(p.id));
     }
 
     return filtered;
-  }, [products, searchQuery, selectedCategory, selectedSubcategory]);
+  }, [products, fuse, searchQuery, selectedCategory, selectedSubcategory]);
 
   const subcategories = getAllSubcategories();
 
@@ -78,6 +104,21 @@ const Products = () => {
     }).format(price);
   };
 
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('all');
+    setSelectedSubcategory('all');
+  };
+
+  // Load shopping list or order into cart
+  const handleLoadList = (items: { productId: string; quantity: number }[]) => {
+    const newQuantities = { ...quantityInputs };
+    items.forEach(item => {
+      newQuantities[item.productId] = item.quantity;
+    });
+    setQuantityInputs(newQuantities);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
       <Navigation />
@@ -94,6 +135,15 @@ const Products = () => {
           <Badge className="mt-4 bg-green-500 text-white">
             Weekly Prices Updated: {COMPANY_INFO.pricing.effectiveDate}
           </Badge>
+        </div>
+
+        {/* Quick Actions: Reorder & Shopping Lists */}
+        <div className="mb-8">
+          <QuickActions
+            onLoadList={handleLoadList}
+            currentCart={quantityInputs}
+            products={products}
+          />
         </div>
 
         {/* Search and Filters */}
@@ -148,117 +198,70 @@ const Products = () => {
           </CardContent>
         </Card>
 
-        {/* Results Count */}
-        <div className="mb-6 flex items-center justify-between">
-          <p className="text-gray-600">
-            Showing <span className="font-semibold">{filteredProducts.length}</span> products
-          </p>
-          {(searchQuery || selectedCategory !== 'all' || selectedSubcategory !== 'all') && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setSearchQuery('');
-                setSelectedCategory('all');
-                setSelectedSubcategory('all');
-              }}
-            >
-              Clear Filters
-            </Button>
-          )}
-        </div>
-
-        {/* Product Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
-            <Card key={product.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader className="pb-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-lg mb-1">{product.name}</CardTitle>
-                    <CardDescription className="text-sm">
-                      {product.subcategory}
-                    </CardDescription>
-                  </div>
-                  <Badge variant="secondary" className="ml-2">
-                    {product.category}
-                  </Badge>
-                </div>
-              </CardHeader>
-
-              <CardContent className="pb-4">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Pack Size:</span>
-                    <span className="font-medium">{product.packSize}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Unit:</span>
-                    <span className="font-medium">{product.unit}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Price:</span>
-                    <span className="text-2xl font-bold text-green-600">
-                      {formatPrice(product.price)}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs text-gray-500">
-                    <span>SKU: {product.id}</span>
-                    {product.inStock ? (
-                      <Badge variant="outline" className="text-green-600 border-green-600">
-                        In Stock
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="text-red-600 border-red-600">
-                        Out of Stock
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-
-              <CardFooter className="flex gap-2">
-                <Input
-                  type="number"
-                  min="0"
-                  placeholder="Qty"
-                  value={quantityInputs[product.id] || ''}
-                  onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                  className="w-20"
-                />
-                <Button
-                  onClick={() => handleAddToCart(product)}
-                  disabled={!product.inStock || !quantityInputs[product.id] || quantityInputs[product.id] === 0}
-                  className="flex-1"
-                  size="sm"
-                >
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  Add to Cart
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-
-        {/* No Results */}
-        {filteredProducts.length === 0 && (
-          <Card className="p-12">
-            <div className="text-center">
-              <Package2 className="h-16 w-16 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">No products found</h3>
-              <p className="text-gray-600 mb-4">
-                Try adjusting your search or filters
-              </p>
-              <Button
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedCategory('all');
-                  setSelectedSubcategory('all');
-                }}
-              >
-                Clear All Filters
+        {/* Results Count & View Switcher */}
+        <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-4">
+            <p className="text-gray-600">
+              Showing <span className="font-semibold">{filteredProducts.length}</span> products
+            </p>
+            {(searchQuery || selectedCategory !== 'all' || selectedSubcategory !== 'all') && (
+              <Button variant="outline" size="sm" onClick={clearFilters}>
+                Clear Filters
               </Button>
-            </div>
+            )}
+          </div>
+
+          {/* View Mode Switcher */}
+          <ViewSwitcher view={viewMode} onViewChange={setViewMode} />
+        </div>
+
+        {/* Dynamic View Rendering */}
+        {viewMode === 'grid' && (
+          <GridView
+            products={filteredProducts}
+            quantityInputs={quantityInputs}
+            onQuantityChange={handleQuantityChange}
+            onAddToCart={handleAddToCart}
+            formatPrice={formatPrice}
+          />
+        )}
+
+        {viewMode === 'list' && (
+          <ListView
+            products={filteredProducts}
+            quantityInputs={quantityInputs}
+            onQuantityChange={handleQuantityChange}
+            onAddToCart={handleAddToCart}
+            formatPrice={formatPrice}
+          />
+        )}
+
+        {viewMode === 'table' && (
+          <TableView
+            products={filteredProducts}
+            quantityInputs={quantityInputs}
+            onQuantityChange={handleQuantityChange}
+            onAddToCart={handleAddToCart}
+            formatPrice={formatPrice}
+          />
+        )}
+
+        {viewMode === 'compact' && (
+          <CompactView
+            products={filteredProducts}
+            quantityInputs={quantityInputs}
+            onQuantityChange={handleQuantityChange}
+            onAddToCart={handleAddToCart}
+            formatPrice={formatPrice}
+          />
+        )}
+
+        {/* Empty State */}
+        {filteredProducts.length === 0 && (
+          <Card className="p-12 text-center">
+            <p className="text-xl text-gray-500 mb-4">No products found</p>
+            <p className="text-gray-400 mb-6">Try adjusting your filters or search query</p>
+            <Button onClick={clearFilters}>Clear All Filters</Button>
           </Card>
         )}
       </div>

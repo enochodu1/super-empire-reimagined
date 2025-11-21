@@ -5,7 +5,7 @@
  * Can be easily upgraded to IndexedDB or a backend API later.
  */
 
-import { Product, Order, Customer, PriceUpdate } from '@/types/product';
+import { Product, Order, Customer, PriceUpdate, ShoppingList } from '@/types/product';
 
 const DB_KEYS = {
   PRODUCTS: 'superempire_products',
@@ -13,6 +13,7 @@ const DB_KEYS = {
   CUSTOMERS: 'superempire_customers',
   PRICE_HISTORY: 'superempire_price_history',
   SETTINGS: 'superempire_settings',
+  SHOPPING_LISTS: 'superempire_shopping_lists',
 } as const;
 
 // Database Interface
@@ -166,6 +167,42 @@ export class SuperEmpireDB {
     const history = this.getPriceHistory();
     history.push(update);
     localStorage.setItem(DB_KEYS.PRICE_HISTORY, JSON.stringify(history));
+  }
+
+  // Shopping Lists
+  static getAllShoppingLists(): ShoppingList[] {
+    const data = localStorage.getItem(DB_KEYS.SHOPPING_LISTS);
+    return data ? JSON.parse(data) : [];
+  }
+
+  static getShoppingList(id: string): ShoppingList | null {
+    const lists = this.getAllShoppingLists();
+    return lists.find(l => l.id === id) || null;
+  }
+
+  static addShoppingList(list: ShoppingList): void {
+    const lists = this.getAllShoppingLists();
+    lists.push(list);
+    localStorage.setItem(DB_KEYS.SHOPPING_LISTS, JSON.stringify(lists));
+  }
+
+  static updateShoppingList(id: string, updates: Partial<ShoppingList>): boolean {
+    const lists = this.getAllShoppingLists();
+    const index = lists.findIndex(l => l.id === id);
+    if (index === -1) return false;
+
+    lists[index] = { ...lists[index], ...updates, updatedAt: new Date().toISOString() };
+    localStorage.setItem(DB_KEYS.SHOPPING_LISTS, JSON.stringify(lists));
+    return true;
+  }
+
+  static deleteShoppingList(id: string): boolean {
+    const lists = this.getAllShoppingLists();
+    const filtered = lists.filter(l => l.id !== id);
+    if (filtered.length === lists.length) return false;
+
+    localStorage.setItem(DB_KEYS.SHOPPING_LISTS, JSON.stringify(filtered));
+    return true;
   }
 
   // Settings
