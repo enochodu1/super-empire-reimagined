@@ -119,11 +119,12 @@ Key features to verify:
 
 ## 🚀 Deployment Options
 
-### Option 1: Lovable (Recommended for Quick Deploy)
-1. Push changes to GitHub
-2. Open your Lovable project
-3. Click "Share" → "Publish"
-4. Get live URL instantly
+### Option 1: GitHub Pages (Current Setup)
+```bash
+cd ~/Projects/super-empire-reimagined
+npm run deploy
+```
+Site updates at: https://enochodu1.github.io/super-empire-reimagined/
 
 ### Option 2: Vercel (Free, Custom Domain)
 ```bash

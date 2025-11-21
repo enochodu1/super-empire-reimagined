@@ -1,22 +1,15 @@
-# Welcome to your Lovable project
+# Super Empire Produce - Wholesale Ordering System
 
-## Project info
+## Project Info
 
-**URL**: https://lovable.dev/projects/281f15ec-2792-4a76-9b14-5aa84fcb513a
+**Live Site**: https://enochodu1.github.io/super-empire-reimagined/
+**Admin Panel**: https://enochodu1.github.io/super-empire-reimagined/admin
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/281f15ec-2792-4a76-9b14-5aa84fcb513a) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
+## How to Edit This Code
 
 **Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Clone this repo and push changes to deploy updates.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -60,14 +53,19 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
+## How to Deploy Updates
 
-Simply open [Lovable](https://lovable.dev/projects/281f15ec-2792-4a76-9b14-5aa84fcb513a) and click on Share -> Publish.
+```bash
+cd ~/Projects/super-empire-reimagined
+npm run deploy
+```
 
-## Can I connect a custom domain to my Lovable project?
+The site will update on GitHub Pages within 1-2 minutes.
 
-Yes, you can!
+## Custom Domain Setup
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+To use a custom domain (e.g., `order.superempireproduce.com`):
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+1. Add a `CNAME` file to the `public/` folder with your domain name
+2. Update your domain's DNS settings to point to GitHub Pages
+3. Configure the custom domain in GitHub repository settings

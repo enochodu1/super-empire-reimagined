@@ -154,11 +154,12 @@ Based on OSINT research, this system solves Super Empire Produce's critical prob
 
 ## 🚀 Deployment
 
-### Option 1: Lovable Deployment (Easiest)
-1. Push code to GitHub
-2. Open Lovable project
-3. Click Share → Publish
-4. Get live URL
+### Option 1: GitHub Pages (Current Setup)
+```bash
+cd ~/Projects/super-empire-reimagined
+npm run deploy
+```
+Live at: https://enochodu1.github.io/super-empire-reimagined/
 
 ### Option 2: Vercel/Netlify
 ```bash
