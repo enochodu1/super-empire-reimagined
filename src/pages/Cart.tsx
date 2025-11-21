@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { useCart } from '@/contexts/CartContext';
@@ -9,12 +9,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Trash2, Plus, Minus, PackageCheck, Send, FileDown, Mail } from 'lucide-react';
+import { ShoppingCart, Trash2, Plus, Minus, PackageCheck, Send, FileDown, Mail, CreditCard, FileText, AlertCircle } from 'lucide-react';
 import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { Order } from '@/types/product';
 import { sendOrderConfirmation } from '@/lib/emailService';
 import { downloadInvoice } from '@/lib/pdfService';
+import { createCheckoutSession, isStripeConfigured } from '@/lib/stripe';
 import { format } from 'date-fns';
 
 const Cart = () => {
@@ -35,6 +38,28 @@ const Cart = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showInvoiceButton, setShowInvoiceButton] = useState(false);
   const [lastOrder, setLastOrder] = useState<Order | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<'quote' | 'stripe'>('quote');
+  const stripeEnabled = isStripeConfigured();
+
+  // Check for payment status in URL (return from Stripe Checkout)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentStatus = urlParams.get('payment');
+
+    if (paymentStatus === 'success') {
+      toast.success('Payment successful!', {
+        description: 'Your order has been confirmed and will be processed shortly.',
+        duration: 6000,
+      });
+      // Clear URL parameters
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (paymentStatus === 'cancelled') {
+      toast.info('Payment cancelled', {
+        description: 'You can continue shopping or try again when ready.',
+      });
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -72,6 +97,55 @@ const Cart = () => {
       return;
     }
 
+    // If Stripe payment selected, redirect to Stripe Checkout
+    if (paymentMethod === 'stripe') {
+      try {
+        const orderId = `ORD-${Date.now()}`;
+        const orderNumber = `SEP-${Date.now().toString().slice(-8)}`;
+
+        const result = await createCheckoutSession({
+          orderId: orderNumber,
+          customerEmail: customerInfo.email,
+          customerName: customerInfo.contactName || customerInfo.businessName,
+          items: cart,
+          subtotal,
+          tax,
+          total,
+          metadata: {
+            businessName: customerInfo.businessName,
+            phone: customerInfo.phone,
+            deliveryAddress: `${customerInfo.address}, ${customerInfo.city}, ${customerInfo.state} ${customerInfo.zip}`,
+            notes: customerInfo.notes,
+          },
+        });
+
+        if (!result.success) {
+          toast.error(result.error || 'Failed to create checkout session');
+          setIsSubmitting(false);
+          return;
+        }
+
+        // If in demo mode (no backend), show info message
+        if (result.error?.includes('Demo mode')) {
+          toast.info('Stripe Demo Mode', {
+            description: result.error,
+            duration: 8000,
+          });
+          setIsSubmitting(false);
+          return;
+        }
+
+        // Redirect happens in createCheckoutSession, loading will stay true
+        return;
+      } catch (error) {
+        console.error('Stripe checkout error:', error);
+        toast.error('Failed to initiate payment');
+        setIsSubmitting(false);
+        return;
+      }
+    }
+
+    // Traditional quote request flow
     try {
       // Create order object
       const order: Order = {
@@ -413,23 +487,96 @@ const Cart = () => {
                       rows={3}
                     />
                   </div>
+
+                  <Separator className="my-2" />
+
+                  {/* Payment Method Selection */}
+                  <div className="space-y-3">
+                    <Label className="text-base font-semibold">Payment Method</Label>
+                    <RadioGroup
+                      value={paymentMethod}
+                      onValueChange={(value) => setPaymentMethod(value as 'quote' | 'stripe')}
+                      className="space-y-3"
+                    >
+                      {/* Request Quote Option */}
+                      <div className="flex items-start space-x-3 space-y-0">
+                        <RadioGroupItem value="quote" id="quote" />
+                        <div className="flex-1">
+                          <Label htmlFor="quote" className="font-medium cursor-pointer">
+                            <div className="flex items-center gap-2">
+                              <FileText className="h-4 w-4" />
+                              Request Quote (Traditional)
+                            </div>
+                          </Label>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Submit order request. We'll contact you to confirm pricing and payment terms.
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Stripe Payment Option */}
+                      <div className="flex items-start space-x-3 space-y-0">
+                        <RadioGroupItem value="stripe" id="stripe" disabled={!stripeEnabled} />
+                        <div className="flex-1">
+                          <Label
+                            htmlFor="stripe"
+                            className={`font-medium ${stripeEnabled ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <CreditCard className="h-4 w-4" />
+                              Pay Now with Credit Card
+                              {!stripeEnabled && (
+                                <Badge variant="secondary" className="text-xs">
+                                  Setup Required
+                                </Badge>
+                              )}
+                            </div>
+                          </Label>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {stripeEnabled
+                              ? 'Secure checkout powered by Stripe. Pay with credit card or digital wallet.'
+                              : 'Stripe payment is not configured. Contact admin to enable online payments.'}
+                          </p>
+                        </div>
+                      </div>
+                    </RadioGroup>
+
+                    {/* Stripe Demo Mode Alert */}
+                    {paymentMethod === 'stripe' && stripeEnabled && !import.meta.env.VITE_API_URL && (
+                      <Alert>
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertDescription>
+                          <strong>Demo Mode:</strong> Backend API not configured. See .env.example for setup instructions.
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                  </div>
                 </CardContent>
                 <CardFooter>
                   <Button
                     type="submit"
                     size="lg"
                     className="w-full"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || (paymentMethod === 'stripe' && !stripeEnabled)}
                   >
                     {isSubmitting ? (
                       <>
                         <PackageCheck className="h-5 w-5 mr-2 animate-spin" />
-                        Submitting Order...
+                        {paymentMethod === 'stripe' ? 'Redirecting to Payment...' : 'Submitting Order...'}
                       </>
                     ) : (
                       <>
-                        <Send className="h-5 w-5 mr-2" />
-                        Place Order
+                        {paymentMethod === 'stripe' ? (
+                          <>
+                            <CreditCard className="h-5 w-5 mr-2" />
+                            Proceed to Payment
+                          </>
+                        ) : (
+                          <>
+                            <Send className="h-5 w-5 mr-2" />
+                            Request Quote
+                          </>
+                        )}
                       </>
                     )}
                   </Button>
