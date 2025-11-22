@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Phone, Building2, Store } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const CTA = () => {
   return (
@@ -16,9 +17,35 @@ export const CTA = () => {
             Ready to Partner With Us?
           </h2>
           <p className="text-xl md:text-2xl mb-12 text-white/90 leading-relaxed">
-            Join hundreds of businesses across the Southern states that trust Super Empire Produce
-            for their wholesale needs. Let's discuss how we can serve your business.
+            Join hundreds of businesses across the Southern states that trust Super Empire Produce.
+            Choose the ordering option that fits your needs.
           </p>
+
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <Link to="/b2b" className="block">
+              <div className="glass-card p-8 rounded-2xl hover:scale-105 transition-transform cursor-pointer border-2 border-white/30">
+                <Building2 className="w-12 h-12 mx-auto mb-4 text-accent-orange" />
+                <h3 className="text-2xl font-bold mb-3 text-gray-900">Wholesale Portal</h3>
+                <p className="text-gray-700 mb-4">Bulk pallet orders • Net 30 terms • Delivery scheduling</p>
+                <Button className="w-full bg-accent-orange hover:bg-accent-orange/90">
+                  Access Wholesale Portal
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </Link>
+
+            <Link to="/products" className="block">
+              <div className="glass-card p-8 rounded-2xl hover:scale-105 transition-transform cursor-pointer border-2 border-white/30">
+                <Store className="w-12 h-12 mx-auto mb-4 text-accent-yellow" />
+                <h3 className="text-2xl font-bold mb-3 text-gray-900">Retail & Restaurant</h3>
+                <p className="text-gray-700 mb-4">Case orders • Walk-in pickup • Small quantities</p>
+                <Button className="w-full bg-accent-yellow text-gray-900 hover:bg-accent-yellow/90">
+                  Browse Products
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </Link>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
@@ -28,13 +55,6 @@ export const CTA = () => {
             >
               <Phone className="mr-2 h-5 w-5" />
               Call (555) 123-4567
-            </Button>
-            <Button
-              className="text-lg px-8 py-6 h-auto bg-accent-tomato hover:bg-accent-tomato/90 text-white border-0"
-              size="lg"
-            >
-              Request a Quote
-              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
 

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, ShoppingCart, User, LogOut, Package } from "lucide-react";
+import { Menu, ShoppingCart, User, LogOut, Package, Building2 } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -48,6 +48,11 @@ export const Navigation = () => {
             </Link>
             <Link to="/products" className="text-foreground hover:text-primary transition-colors font-medium">
               Browse Products
+            </Link>
+            <Link to="/b2b" className="flex items-center gap-2 text-foreground hover:text-primary transition-colors font-medium">
+              <Building2 className="h-4 w-4" />
+              B2B Portal
+              <Badge className="bg-accent-orange text-white text-xs">Wholesale</Badge>
             </Link>
             <a href="/#coverage" className="text-foreground hover:text-primary transition-colors font-medium">
               Coverage
@@ -129,6 +134,14 @@ export const Navigation = () => {
               onClick={() => setIsOpen(false)}
             >
               Browse Products
+            </Link>
+            <Link
+              to="/b2b"
+              className="block text-foreground hover:text-primary transition-colors py-2 font-medium flex items-center gap-2"
+              onClick={() => setIsOpen(false)}
+            >
+              <Building2 className="h-4 w-4" />
+              B2B Portal (Wholesale)
             </Link>
             <a
               href="/#coverage"

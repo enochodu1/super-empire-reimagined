@@ -32,23 +32,27 @@ export const Hero = () => {
           </h1>
 
           <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-            Your trusted wholesale partner for restaurants, grocery stores, and businesses across the
+            Your trusted partner for restaurants, grocery stores, and businesses across the
             Southern states. Quality produce, reliable delivery, competitive pricing.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link to="/products">
+            <Link to="/b2b">
               <Button variant="hero" size="lg" className="text-lg">
-                Start Your Order
+                Wholesale Ordering
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
             <Link to="/products">
               <Button variant="outline-light" size="lg" className="text-lg">
-                View Products
+                Retail & Restaurant
               </Button>
             </Link>
           </div>
+
+          <p className="mt-4 text-white/70 text-sm">
+            Choose Wholesale for bulk pallet orders • Choose Retail for smaller case orders
+          </p>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mt-12">

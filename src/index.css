@@ -8,46 +8,52 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 42 47% 95%;
-    --foreground: 150 30% 15%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 13%;
 
     --card: 0 0% 100%;
-    --card-foreground: 150 30% 15%;
+    --card-foreground: 0 0% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 150 30% 15%;
+    --popover-foreground: 0 0% 13%;
 
-    --primary: 150 45% 25%;
-    --primary-foreground: 42 47% 95%;
+    /* BRAND COLORS FROM LOGO - Bright lime green (circle) */
+    --primary: 88 50% 53%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 12 75% 60%;
+    /* Secondary - Bright orange (pumpkin from logo) */
+    --secondary: 36 100% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 42 30% 88%;
-    --muted-foreground: 150 15% 40%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 150 60% 35%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent - Yellow (bell pepper from logo) */
+    --accent: 45 100% 51%;
+    --accent-foreground: 0 0% 13%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive - Red (radish from logo) */
+    --destructive: 4 90% 58%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 42 25% 85%;
-    --input: 42 25% 85%;
-    --ring: 150 45% 25%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 88 50% 53%;
 
     --radius: 0.75rem;
+
+    /* Custom produce theme colors FROM LOGO */
+    --brand-green: 88 50% 53%;        /* #7CB342 - Fresh lime green circle */
+    --brand-green-light: 88 50% 68%;  /* Lighter for hover */
+    --brand-green-dark: 88 50% 38%;   /* Darker for text */
+    --accent-yellow: 45 100% 51%;     /* #FFC107 - Yellow pepper */
+    --accent-orange: 36 100% 50%;     /* #FF9800 - Pumpkin */
+    --accent-tomato: 4 90% 58%;       /* #EF5350 - Radish/tomato */
+    --brand-dark: 0 0% 13%;           /* #212121 - Logo outline */
+    --brand-white: 0 0% 100%;         /* #FFFFFF */
     
-    /* Custom produce theme colors */
-    --brand-green: 150 45% 25%;
-    --brand-green-light: 150 45% 35%;
-    --brand-green-dark: 150 60% 15%;
-    --accent-tomato: 12 75% 60%;
-    --earth-cream: 42 47% 95%;
-    --earth-brown: 30 25% 30%;
-    
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(150 45% 25%) 0%, hsl(150 60% 15%) 100%);
+    /* Gradients - Using bright logo colors */
+    --gradient-hero: linear-gradient(135deg, hsl(88 50% 53%) 0%, hsl(88 50% 38%) 100%);
     --gradient-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
     
     /* Animations */
@@ -77,40 +83,47 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 150 30% 8%;
-    --foreground: 42 47% 95%;
+    --background: 0 0% 10%;
+    --foreground: 0 0% 95%;
 
-    --card: 150 25% 12%;
-    --card-foreground: 42 47% 95%;
+    --card: 0 0% 14%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 150 25% 12%;
-    --popover-foreground: 42 47% 95%;
+    --popover: 0 0% 14%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 150 45% 45%;
-    --primary-foreground: 150 30% 8%;
+    /* Brighter green for dark mode visibility */
+    --primary: 88 50% 60%;
+    --primary-foreground: 0 0% 10%;
 
-    --secondary: 12 75% 55%;
+    /* Bright orange stays vibrant in dark */
+    --secondary: 36 100% 55%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 150 20% 20%;
-    --muted-foreground: 42 30% 65%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 150 60% 40%;
-    --accent-foreground: 0 0% 100%;
+    /* Yellow accent slightly muted for dark */
+    --accent: 45 100% 56%;
+    --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 62.8% 50%;
-    --destructive-foreground: 210 40% 98%;
+    /* Red slightly adjusted for dark mode */
+    --destructive: 4 90% 62%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 150 20% 25%;
-    --input: 150 20% 25%;
-    --ring: 150 45% 45%;
-    
-    --brand-green: 150 45% 45%;
-    --brand-green-light: 150 45% 55%;
-    --brand-green-dark: 150 60% 20%;
-    --accent-tomato: 12 75% 55%;
-    --earth-cream: 150 30% 8%;
-    --earth-brown: 30 25% 70%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 88 50% 60%;
+
+    /* Dark mode brand colors - slightly brighter */
+    --brand-green: 88 50% 60%;        /* Brighter for visibility */
+    --brand-green-light: 88 50% 70%;
+    --brand-green-dark: 88 50% 45%;
+    --accent-yellow: 45 100% 56%;
+    --accent-orange: 36 100% 55%;
+    --accent-tomato: 4 90% 62%;
+    --brand-dark: 0 0% 95%;           /* Inverted for dark mode */
+    --brand-white: 0 0% 10%;
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
