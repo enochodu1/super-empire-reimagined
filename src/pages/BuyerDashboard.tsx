@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ArrowLeft, TrendingUp, DollarSign, Package, Download, Calendar } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowLeft, TrendingUp, DollarSign, Package, Download, Calendar, History, Bell, RotateCcw, FileText, MapPin, Zap } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -26,6 +26,7 @@ interface PriceTrend {
 
 const BuyerDashboard = () => {
   const [timeRange, setTimeRange] = useState('30days');
+  const navigate = useNavigate();
 
   const purchases: PurchaseOrder[] = [
     { id: 'PO-2025-001', date: '2025-11-20', items: 15, total: 342.50, status: 'delivered' },
@@ -144,6 +145,107 @@ const BuyerDashboard = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Quick Access Features */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Quick Access</CardTitle>
+            <CardDescription>Explore new features to streamline your ordering</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-3 gap-4">
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/order-history')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <History className="w-8 h-8 text-blue-600" />
+                    <h3 className="font-semibold">Quick Reorder</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Reorder from your purchase history with one click
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    View History
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/notifications')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Bell className="w-8 h-8 text-orange-600" />
+                    <h3 className="font-semibold">Price Alerts</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Get notified when prices drop on your favorite items
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    Manage Alerts
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/standing-orders')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <RotateCcw className="w-8 h-8 text-green-600" />
+                    <h3 className="font-semibold">Standing Orders</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Set up automatic recurring orders for essentials
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    Setup Orders
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/documents')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <FileText className="w-8 h-8 text-teal-600" />
+                    <h3 className="font-semibold">Documents</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Access spec sheets and certification documents
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    View Docs
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/multi-location')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <MapPin className="w-8 h-8 text-purple-600" />
+                    <h3 className="font-semibold">Multi-Location</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Manage orders across all your locations
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    Manage Locations
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/advanced-features')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Zap className="w-8 h-8 text-yellow-600" />
+                    <h3 className="font-semibold">Advanced Tools</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Delivery tracking, catch weight, weather alerts & more
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    Explore Tools
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
 
         <Tabs defaultValue="orders" className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8">

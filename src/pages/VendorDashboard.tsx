@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { ArrowLeft, DollarSign, TrendingUp, Package, ShoppingCart, AlertCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowLeft, DollarSign, TrendingUp, Package, ShoppingCart, AlertCircle, Bell, FileText, Warehouse, Zap } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
@@ -26,6 +27,7 @@ interface InventoryAlert {
 
 const VendorDashboard = () => {
   const [timeRange, setTimeRange] = useState('30days');
+  const navigate = useNavigate();
 
   const salesData: SalesData[] = [
     { product: 'Roma Tomatoes', sku: 'VEG-001', unitsSold: 1250, revenue: 1562.50, trend: 15.2 },
@@ -171,6 +173,77 @@ const VendorDashboard = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Quick Access Features */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Quick Access</CardTitle>
+            <CardDescription>Manage your products and explore advanced features</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-3 gap-4">
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/inventory')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Warehouse className="w-8 h-8 text-blue-600" />
+                    <h3 className="font-semibold">Inventory</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Manage stock levels and track inventory in real-time
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    Manage Inventory
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/documents')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <FileText className="w-8 h-8 text-teal-600" />
+                    <h3 className="font-semibold">Documents</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Upload certifications and product specifications
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    View Docs
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/notifications')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Bell className="w-8 h-8 text-orange-600" />
+                    <h3 className="font-semibold">Notifications</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Manage alerts for orders, inventory, and updates
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    Manage Alerts
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/advanced-features')}>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Zap className="w-8 h-8 text-yellow-600" />
+                    <h3 className="font-semibold">Advanced Tools</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Quality grading, weather alerts, sampling programs
+                  </p>
+                  <Button size="sm" variant="outline" className="w-full">
+                    Explore Tools
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
 
         <Tabs defaultValue="sales" className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8">
