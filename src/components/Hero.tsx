@@ -12,9 +12,9 @@ export const Hero = () => {
         <img
           src={heroImage}
           alt="Fresh produce at market"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover brightness-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-green-dark/95 via-brand-green/85 to-brand-green/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-green-dark/40 via-brand-green/25 to-transparent" />
       </div>
 
       {/* Content */}
@@ -37,21 +37,16 @@ export const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link to="/b2b">
-              <Button variant="hero" size="lg" className="text-lg">
-                Wholesale Ordering
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
             <Link to="/products">
-              <Button variant="outline-light" size="lg" className="text-lg">
-                Retail & Restaurant
+              <Button variant="hero" size="lg" className="text-lg">
+                Browse Products
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
           </div>
 
           <p className="mt-4 text-white/70 text-sm">
-            Choose Wholesale for bulk pallet orders • Choose Retail for smaller case orders
+            Serving wholesale, retail, and restaurant customers with 200+ fresh products
           </p>
 
           {/* Stats */}

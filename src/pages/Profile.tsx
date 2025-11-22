@@ -153,8 +153,12 @@ export default function Profile() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-green-600 mx-auto mb-4" />
+          <p className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Loading your profile...</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Just a moment</p>
+        </div>
       </div>
     );
   }
@@ -344,8 +348,9 @@ export default function Profile() {
                 </CardHeader>
                 <CardContent>
                   {loading ? (
-                    <div className="flex justify-center py-8">
-                      <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+                    <div className="text-center py-8">
+                      <Loader2 className="h-8 w-8 animate-spin text-green-600 mx-auto mb-3" />
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Loading your order history...</p>
                     </div>
                   ) : orders.length === 0 ? (
                     <div className="text-center py-8">

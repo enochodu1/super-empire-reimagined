@@ -8,6 +8,8 @@ import { SuperEmpireDB } from '@/lib/database';
 import { COMPANY_INFO } from '@/lib/companyInfo';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Building2, Store, Truck, CreditCard } from 'lucide-react';
 import Fuse from 'fuse.js';
 
 // Import all view components
@@ -19,9 +21,17 @@ import { CompactView } from '@/components/products/CompactView';
 import { QuickActions } from '@/components/products/QuickActions';
 import { EnhancedFilters, FilterState } from '@/components/products/EnhancedFilters';
 
+type CustomerType = 'wholesale' | 'retail';
+
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [quantityInputs, setQuantityInputs] = useState<Record<string, number>>({});
+
+  // Customer type with localStorage persistence
+  const [customerType, setCustomerType] = useState<CustomerType>(() => {
+    const saved = localStorage.getItem('superempire_customer_type');
+    return (saved as CustomerType) || 'retail';
+  });
 
   // View mode with localStorage persistence
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
@@ -71,6 +81,11 @@ const Products = () => {
   useEffect(() => {
     localStorage.setItem('superempire_view_mode', viewMode);
   }, [viewMode]);
+
+  // Persist customer type to localStorage
+  useEffect(() => {
+    localStorage.setItem('superempire_customer_type', customerType);
+  }, [customerType]);
 
   // Fuzzy search with Fuse.js
   const fuse = useMemo(() => {
@@ -173,10 +188,12 @@ const Products = () => {
   };
 
   const formatPrice = (price: number) => {
+    // Apply 15% wholesale discount
+    const finalPrice = customerType === 'wholesale' ? price * 0.85 : price;
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-    }).format(price);
+    }).format(finalPrice);
   };
 
   // Load shopping list or order into cart
@@ -189,21 +206,69 @@ const Products = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-muted/30 via-background to-muted/20 dark:from-background dark:via-muted/10 dark:to-background">
       <Navigation />
 
       <div className="container mx-auto px-4 py-24">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Our Product Catalog
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             {COMPANY_INFO.serviceArea.description}
           </p>
-          <Badge className="mt-4 bg-green-500 text-white">
+          <Badge className="mt-4 bg-primary text-primary-foreground">
             Weekly Prices Updated: {COMPANY_INFO.pricing.effectiveDate}
           </Badge>
+        </div>
+
+        {/* Customer Type Selector */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <Card className="p-6 border-2 border-primary/20">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              {/* Toggle Buttons */}
+              <div className="flex-shrink-0">
+                <div className="flex gap-2 p-1 bg-muted rounded-lg">
+                  <Button
+                    variant={customerType === 'retail' ? 'default' : 'ghost'}
+                    size="lg"
+                    onClick={() => setCustomerType('retail')}
+                    className="gap-2"
+                  >
+                    <Store className="h-5 w-5" />
+                    Retail & Restaurant
+                  </Button>
+                  <Button
+                    variant={customerType === 'wholesale' ? 'default' : 'ghost'}
+                    size="lg"
+                    onClick={() => setCustomerType('wholesale')}
+                    className="gap-2"
+                  >
+                    <Building2 className="h-5 w-5" />
+                    Wholesale
+                  </Button>
+                </div>
+              </div>
+
+              {/* Wholesale Benefits */}
+              {customerType === 'wholesale' && (
+                <div className="flex flex-wrap gap-2 justify-center md:justify-start animate-fade-in">
+                  <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1">
+                    <CreditCard className="h-3 w-3" />
+                    Net 30 Terms
+                  </Badge>
+                  <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 gap-1">
+                    <Truck className="h-3 w-3" />
+                    Free Delivery
+                  </Badge>
+                  <Badge variant="secondary" className="bg-accent/10 text-accent-foreground border-accent/30 gap-1">
+                    15% Savings
+                  </Badge>
+                </div>
+              )}
+            </div>
+          </Card>
         </div>
 
         {/* Quick Actions: Reorder & Shopping Lists */}

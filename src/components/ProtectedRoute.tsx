@@ -17,7 +17,8 @@ export const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRout
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-green-600 mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">Loading...</p>
+          <p className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Verifying your access...</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Please wait a moment</p>
         </div>
       </div>
     );

@@ -69,15 +69,15 @@ export const TableView = ({
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50">
-              <TableHead className="w-[60px] font-semibold">Image</TableHead>
-              <TableHead className="w-[250px] font-semibold">Product Name</TableHead>
-              <TableHead className="font-semibold">Category</TableHead>
-              <TableHead className="font-semibold">Subcategory</TableHead>
-              <TableHead className="font-semibold">Pack Size</TableHead>
-              <TableHead className="font-semibold">Unit</TableHead>
-              <TableHead className="text-right font-semibold">Price</TableHead>
-              <TableHead className="w-[120px] font-semibold">Quantity</TableHead>
-              <TableHead className="w-[100px] font-semibold">Action</TableHead>
+              <TableHead className="w-[70px] font-semibold">Image</TableHead>
+              <TableHead className="w-[200px] font-semibold">Product Name</TableHead>
+              <TableHead className="w-[130px] font-semibold">Category</TableHead>
+              <TableHead className="w-[150px] font-semibold">Subcategory</TableHead>
+              <TableHead className="w-[120px] font-semibold">Pack Size</TableHead>
+              <TableHead className="w-[80px] font-semibold">Unit</TableHead>
+              <TableHead className="w-[100px] text-right font-semibold">Price</TableHead>
+              <TableHead className="w-[130px] font-semibold">Quantity</TableHead>
+              <TableHead className="w-[110px] font-semibold">Action</TableHead>
             </TableRow>
           </TableHeader>
         </Table>
@@ -104,7 +104,7 @@ export const TableView = ({
                       transform: `translateY(${virtualRow.start}px)`,
                     }}
                   >
-                    <TableCell>
+                    <TableCell className="w-[70px]">
                       {product.image ? (
                         <img
                           src={product.image}
@@ -116,21 +116,21 @@ export const TableView = ({
                         <div className="w-10 h-10 bg-gray-100 rounded" />
                       )}
                     </TableCell>
-                    <TableCell className="font-medium">{product.name}</TableCell>
-                    <TableCell>
+                    <TableCell className="w-[200px] font-medium">{product.name}</TableCell>
+                    <TableCell className="w-[130px]">
                       <Badge variant="outline" className="capitalize">
                         {product.category}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
+                    <TableCell className="w-[150px] text-sm text-muted-foreground">
                       {product.subcategory}
                     </TableCell>
-                    <TableCell className="text-sm">{product.packSize}</TableCell>
-                    <TableCell className="text-sm font-mono">{product.unit}</TableCell>
-                    <TableCell className="text-right font-semibold text-green-600">
+                    <TableCell className="w-[120px] text-sm">{product.packSize}</TableCell>
+                    <TableCell className="w-[80px] text-sm font-mono">{product.unit}</TableCell>
+                    <TableCell className="w-[100px] text-right font-semibold text-green-600">
                       {formatPrice(product.price)}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="w-[130px]">
                       <Input
                         type="number"
                         min="0"
@@ -145,7 +145,7 @@ export const TableView = ({
                         }}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="w-[110px]">
                       <Button
                         size="sm"
                         onClick={() => onAddToCart(product)}
