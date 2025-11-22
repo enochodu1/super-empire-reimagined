@@ -17,6 +17,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import B2BPortal from "./pages/B2BPortal";
+import InventoryManagement from "./pages/InventoryManagement";
+import BuyerDashboard from "./pages/BuyerDashboard";
+import VendorDashboard from "./pages/VendorDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +47,30 @@ const App = () => {
                   <Route path="/products" element={<Products />} />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/b2b" element={<B2BPortal />} />
+                  <Route
+                    path="/inventory"
+                    element={
+                      <ProtectedRoute>
+                        <InventoryManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/buyer-dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <BuyerDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/vendor-dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <VendorDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
                   <Route
                     path="/admin"
                     element={

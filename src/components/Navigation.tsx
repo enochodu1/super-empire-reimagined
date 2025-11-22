@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, ShoppingCart, User, LogOut, Package, Building2 } from "lucide-react";
+import { Menu, ShoppingCart, User, LogOut, Package, Building2, BarChart3, Warehouse } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -93,6 +93,20 @@ export const Navigation = () => {
                   <DropdownMenuItem onClick={() => navigate('/profile?tab=orders')}>
                     <Package className="mr-2 h-4 w-4" />
                     <span>Orders</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuLabel>Dashboards</DropdownMenuLabel>
+                  <DropdownMenuItem onClick={() => navigate('/buyer-dashboard')}>
+                    <BarChart3 className="mr-2 h-4 w-4" />
+                    <span>Buyer Dashboard</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/vendor-dashboard')}>
+                    <Building2 className="mr-2 h-4 w-4" />
+                    <span>Vendor Dashboard</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/inventory')}>
+                    <Warehouse className="mr-2 h-4 w-4" />
+                    <span>Inventory Management</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut}>
@@ -191,6 +205,43 @@ export const Navigation = () => {
                 >
                   <User className="h-5 w-5 mr-2" />
                   My Account
+                </Button>
+                <div className="text-xs font-semibold text-muted-foreground pt-2">DASHBOARDS</div>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/buyer-dashboard');
+                    setIsOpen(false);
+                  }}
+                >
+                  <BarChart3 className="h-5 w-5 mr-2" />
+                  Buyer Dashboard
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/vendor-dashboard');
+                    setIsOpen(false);
+                  }}
+                >
+                  <Building2 className="h-5 w-5 mr-2" />
+                  Vendor Dashboard
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/inventory');
+                    setIsOpen(false);
+                  }}
+                >
+                  <Warehouse className="h-5 w-5 mr-2" />
+                  Inventory
                 </Button>
                 <Button
                   variant="destructive"

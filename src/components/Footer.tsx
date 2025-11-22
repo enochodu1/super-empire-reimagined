@@ -1,10 +1,50 @@
 import { MapPin, Phone, Mail } from "lucide-react";
 import { COMPANY_INFO, getFormattedPhone, getCallUrl, getEmailUrl } from "@/lib/companyInfo";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export const Footer = () => {
+  const [email, setEmail] = useState("");
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      toast.success("You've been subscribed to our newsletter!");
+      setEmail("");
+    }
+  };
+
   return (
     <footer className="bg-primary text-primary-foreground py-12">
       <div className="container mx-auto px-4">
+        {/* Newsletter Signup */}
+        <div className="bg-primary-foreground/10 rounded-lg p-6 mb-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <h3 className="text-xl font-bold mb-2 flex items-center justify-center gap-2">
+              <Mail className="w-5 h-5" />
+              Subscribe to Our Monthly Newsletter
+            </h3>
+            <p className="text-primary-foreground/80 text-sm mb-4">
+              Get updates on seasonal produce, special deals, and promotions
+            </p>
+            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3">
+              <Input
+                type="email"
+                placeholder="Enter your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                required
+              />
+              <Button type="submit" className="bg-accent-tomato hover:bg-accent-tomato/90">
+                Subscribe
+              </Button>
+            </form>
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
