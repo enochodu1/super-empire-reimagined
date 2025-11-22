@@ -1,12 +1,13 @@
 import { Product } from '@/types/product';
 import { allProduceProducts } from './products';
 import tortillaProducts from './tortillaProducts';
+import { addImagesToProducts } from '@/services/productImageService';
 
-// Combine all products
-export const allProducts: Product[] = [
+// Combine all products and add high-quality images
+export const allProducts: Product[] = addImagesToProducts([
   ...allProduceProducts,
   ...tortillaProducts,
-];
+]);
 
 // Helper functions for product filtering
 export const getProductsByCategory = (category: string) => {
