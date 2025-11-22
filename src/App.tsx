@@ -67,35 +67,35 @@ const App = () => {
                     <Route path="/products" element={<Products />} />
                     <Route path="/cart" element={<Cart />} />
 
-                    {/* Dashboards */}
-                    <Route path="/inventory" element={<ProtectedRoute><InventoryManagement /></ProtectedRoute>} />
-                    <Route path="/buyer-dashboard" element={<ProtectedRoute><BuyerDashboard /></ProtectedRoute>} />
-                    <Route path="/vendor-dashboard" element={<ProtectedRoute><VendorDashboard /></ProtectedRoute>} />
+                    {/* Dashboards - DEMO MODE: No auth required */}
+                    <Route path="/inventory" element={<InventoryManagement />} />
+                    <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
+                    <Route path="/vendor-dashboard" element={<VendorDashboard />} />
 
                     {/* Registration & Applications */}
                     <Route path="/vendor-application" element={<VendorApplication />} />
                     <Route path="/buyer-registration" element={<BuyerRegistration />} />
 
-                    {/* RFP System */}
-                    <Route path="/rfp-request" element={<ProtectedRoute><RFPRequest /></ProtectedRoute>} />
-                    <Route path="/rfp-list" element={<ProtectedRoute><RFPManagement /></ProtectedRoute>} />
+                    {/* RFP System - DEMO MODE: No auth required */}
+                    <Route path="/rfp-request" element={<RFPRequest />} />
+                    <Route path="/rfp-list" element={<RFPManagement />} />
 
-                    {/* Features */}
-                    <Route path="/rewards" element={<ProtectedRoute><RewardsProgram /></ProtectedRoute>} />
+                    {/* Features - DEMO MODE: No auth required */}
+                    <Route path="/rewards" element={<RewardsProgram />} />
                     <Route path="/seasonal-calendar" element={<SeasonalCalendar />} />
                     <Route path="/recipes" element={<RecipeBlog />} />
-                    <Route path="/order-history" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
-                    <Route path="/notifications" element={<ProtectedRoute><NotificationPreferences /></ProtectedRoute>} />
-                    <Route path="/documents" element={<ProtectedRoute><DocumentManagement /></ProtectedRoute>} />
-                    <Route path="/standing-orders" element={<ProtectedRoute><StandingOrders /></ProtectedRoute>} />
-                    <Route path="/multi-location" element={<ProtectedRoute><MultiLocationManagement /></ProtectedRoute>} />
-                    <Route path="/advanced-features" element={<ProtectedRoute><AdvancedFeatures /></ProtectedRoute>} />
+                    <Route path="/order-history" element={<OrderHistory />} />
+                    <Route path="/notifications" element={<NotificationPreferences />} />
+                    <Route path="/documents" element={<DocumentManagement />} />
+                    <Route path="/standing-orders" element={<StandingOrders />} />
+                    <Route path="/multi-location" element={<MultiLocationManagement />} />
+                    <Route path="/advanced-features" element={<AdvancedFeatures />} />
 
-                    {/* Auth & Admin */}
-                    <Route path="/admin" element={<ProtectedRoute requireAdmin><Admin /></ProtectedRoute>} />
+                    {/* Auth & Admin - DEMO MODE: No auth required */}
+                    <Route path="/admin" element={<Admin />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                    <Route path="/profile" element={<Profile />} />
 
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />

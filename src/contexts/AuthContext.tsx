@@ -37,13 +37,40 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // DEMO MODE: Provide demo user automatically
+    const demoUser = {
+      id: 'demo-user-123',
+      email: 'demo@superempire.com',
+      aud: 'authenticated',
+      role: 'authenticated',
+      created_at: new Date().toISOString(),
+      app_metadata: {},
+      user_metadata: {},
+    } as User;
+
+    const demoProfile: Profile = {
+      id: 'demo-user-123',
+      email: 'demo@superempire.com',
+      full_name: 'Demo User',
+      business_name: 'Super Empire Demo Account',
+      phone: '(555) 123-4567',
+      address: '123 Produce Lane',
+      city: 'Dallas',
+      state: 'TX',
+      zip: '75001',
+      role: 'admin', // Give demo user admin access
+    };
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
+      if (session) {
+        setSession(session);
+        setUser(session.user);
         loadProfile(session.user.id);
       } else {
+        // No real session, use demo data
+        setUser(demoUser);
+        setProfile(demoProfile);
         setLoading(false);
       }
     });
@@ -52,12 +79,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
+      if (session) {
+        setSession(session);
+        setUser(session.user);
         await loadProfile(session.user.id);
       } else {
-        setProfile(null);
+        // No session, fallback to demo
+        setUser(demoUser);
+        setProfile(demoProfile);
       }
     });
 
