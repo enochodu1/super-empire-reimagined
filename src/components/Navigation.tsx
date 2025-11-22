@@ -52,7 +52,7 @@ export const Navigation = () => {
             <Link to="/b2b" className="flex items-center gap-2 text-foreground hover:text-primary transition-colors font-medium">
               <Building2 className="h-4 w-4" />
               B2B Portal
-              <Badge className="bg-accent-orange text-white text-xs">Wholesale</Badge>
+              <Badge className="bg-accent-tomato text-white text-xs">Wholesale</Badge>
             </Link>
             <a href="/#coverage" className="text-foreground hover:text-primary transition-colors font-medium">
               Coverage

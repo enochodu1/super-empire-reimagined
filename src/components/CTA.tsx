@@ -24,10 +24,10 @@ export const CTA = () => {
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <Link to="/b2b" className="block">
               <div className="glass-card p-8 rounded-2xl hover:scale-105 transition-transform cursor-pointer border-2 border-white/30">
-                <Building2 className="w-12 h-12 mx-auto mb-4 text-accent-orange" />
+                <Building2 className="w-12 h-12 mx-auto mb-4 text-accent-tomato" />
                 <h3 className="text-2xl font-bold mb-3 text-gray-900">Wholesale Portal</h3>
                 <p className="text-gray-700 mb-4">Bulk pallet orders • Net 30 terms • Delivery scheduling</p>
-                <Button className="w-full bg-accent-orange hover:bg-accent-orange/90">
+                <Button className="w-full bg-accent-tomato hover:bg-accent-tomato/90">
                   Access Wholesale Portal
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -36,10 +36,10 @@ export const CTA = () => {
 
             <Link to="/products" className="block">
               <div className="glass-card p-8 rounded-2xl hover:scale-105 transition-transform cursor-pointer border-2 border-white/30">
-                <Store className="w-12 h-12 mx-auto mb-4 text-accent-yellow" />
+                <Store className="w-12 h-12 mx-auto mb-4 text-primary" />
                 <h3 className="text-2xl font-bold mb-3 text-gray-900">Retail & Restaurant</h3>
                 <p className="text-gray-700 mb-4">Case orders • Walk-in pickup • Small quantities</p>
-                <Button className="w-full bg-accent-yellow text-gray-900 hover:bg-accent-yellow/90">
+                <Button className="w-full bg-primary hover:bg-primary/90">
                   Browse Products
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
