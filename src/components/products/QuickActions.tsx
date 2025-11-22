@@ -4,11 +4,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Clock, BookMarked, Plus, Trash2, Star, ShoppingCart } from 'lucide-react';
+import { Clock, BookMarked, Plus, Trash2, Star, ShoppingCart, Package } from 'lucide-react';
 import { SuperEmpireDB } from '@/lib/database';
 import { ShoppingList, Product } from '@/types/product';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 interface QuickActionsProps {
   onLoadList: (items: { productId: string; quantity: number }[]) => void;
@@ -76,7 +77,9 @@ export const QuickActions = ({ onLoadList, currentCart, products }: QuickActions
     setShoppingLists(SuperEmpireDB.getAllShoppingLists());
     setNewListName('');
     setIsCreateDialogOpen(false);
-    toast.success(`Saved "${newListName}" with ${items.length} items`);
+    toast.success(`Order Guide Created!`, {
+      description: `"${newListName}" saved with ${items.length} items`,
+    });
   };
 
   const handleDeleteList = (listId: string, listName: string) => {
@@ -116,46 +119,47 @@ export const QuickActions = ({ onLoadList, currentCart, products }: QuickActions
             </div>
           )}
 
-          {/* Shopping Lists Section */}
+          {/* Order Guides Section */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <BookMarked className="h-4 w-4 text-blue-600" />
-                <h3 className="font-semibold text-sm">Saved Shopping Lists</h3>
-                <Badge variant="outline" className="text-xs">{shoppingLists.length}</Badge>
+                <h3 className="font-semibold text-sm">Order Guides</h3>
+                <Badge variant="outline" className="text-xs">{shoppingLists.length} saved</Badge>
               </div>
               <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
                 <DialogTrigger asChild>
                   <Button size="sm" variant="default" className="bg-green-600 hover:bg-green-700">
                     <Plus className="h-3 w-3 mr-1" />
-                    Save Current Cart
+                    Create Order Guide
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Save Shopping List</DialogTitle>
+                    <DialogTitle>Create Order Guide</DialogTitle>
                     <DialogDescription>
-                      Save your current cart as a reusable shopping list
+                      Save your current cart as a reusable order guide for quick reordering
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 py-4">
                     <div>
-                      <Label htmlFor="list-name">List Name</Label>
+                      <Label htmlFor="list-name">Order Guide Name</Label>
                       <Input
                         id="list-name"
-                        placeholder="e.g., Monday Order, Weekly Staples"
+                        placeholder="e.g., Monday Restock, Weekly Staples, Restaurant Essentials"
                         value={newListName}
                         onChange={(e) => setNewListName(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSaveCurrentCart()}
                       />
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      {Object.values(currentCart).filter(q => q > 0).length} items will be saved
+                      <Package className="h-4 w-4 inline mr-1" />
+                      {Object.values(currentCart).filter(q => q > 0).length} items will be saved to your order guide
                     </div>
                   </div>
                   <DialogFooter>
                     <Button onClick={handleSaveCurrentCart} disabled={!newListName.trim()}>
-                      Save List
+                      Create Order Guide
                     </Button>
                   </DialogFooter>
                 </DialogContent>
@@ -188,9 +192,14 @@ export const QuickActions = ({ onLoadList, currentCart, products }: QuickActions
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">
-                No saved lists yet. Add items to your cart and click "Save Current Cart" to create your first list!
-              </p>
+              <div className="text-center py-4 bg-white rounded-lg border border-dashed">
+                <p className="text-sm text-muted-foreground mb-2">
+                  No order guides yet
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Create your first guide to save frequently ordered items for quick reordering
+                </p>
+              </div>
             )}
           </div>
 

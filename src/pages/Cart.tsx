@@ -380,6 +380,15 @@ const Cart = () => {
                   <span className="font-bold">Total:</span>
                   <span className="font-bold text-green-600">{formatPrice(total)}</span>
                 </div>
+                <Separator />
+                <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                  <p className="text-sm text-green-800 dark:text-green-300 font-medium text-center">
+                    ✓ No minimum purchase required
+                  </p>
+                  <p className="text-xs text-green-700 dark:text-green-400 text-center mt-1">
+                    Same wholesale prices - buy 1 or 100
+                  </p>
+                </div>
               </CardContent>
             </Card>
 
