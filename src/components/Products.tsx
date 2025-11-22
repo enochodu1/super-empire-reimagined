@@ -1,8 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Leaf, Apple, Sprout } from "lucide-react";
-import vegetablesImage from "@/assets/vegetables.jpg";
-import fruitsImage from "@/assets/fruits.jpg";
 
 export const Products = () => {
   const categories = [
@@ -10,21 +8,21 @@ export const Products = () => {
       icon: Leaf,
       title: "Fresh Vegetables",
       description: "Farm-fresh vegetables including lettuce, tomatoes, peppers, onions, and seasonal specialties.",
-      image: vegetablesImage,
+      image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=1200&q=80",
       color: "brand-green",
     },
     {
       icon: Apple,
       title: "Premium Fruits",
       description: "Hand-selected fruits from trusted growers. Citrus, berries, melons, and tropical varieties.",
-      image: fruitsImage,
+      image: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=1200&q=80",
       color: "accent-tomato",
     },
     {
       icon: Sprout,
       title: "Seasonal Specials",
       description: "Rotating seasonal produce at peak freshness. Ask about our current seasonal selections.",
-      image: vegetablesImage,
+      image: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=1200&q=80",
       color: "brand-green-light",
     },
   ];

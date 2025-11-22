@@ -256,4 +256,104 @@ export const dailyAvocados: Product[] = [
   { id: 'AVG011', name: 'Avocados MX #1', category: 'produce', subcategory: 'Avocados MX #1', unit: 'CT', packSize: '40 CT', price: 38.50, priceEffectiveDate: '2025-11-17', inStock: true },
 ];
 
-export const allProduceProducts = [...produceProducts, ...dailyAvocados];
+// Additional Wholesale Produce - Expanded Catalog
+export const wholesaleProducts: Product[] = [
+  // CITRUS - Additional Varieties
+  { id: 'CIT001', name: 'Lemons Fancy', category: 'produce', subcategory: 'Citrus', unit: 'CT', packSize: '115 CT', price: 28.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'CIT002', name: 'Lemons Choice', category: 'produce', subcategory: 'Citrus', unit: 'CT', packSize: '165 CT', price: 26.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'CIT003', name: 'Tangerines Murcott', category: 'produce', subcategory: 'Citrus', unit: 'LBS', packSize: '25 LBS', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'CIT004', name: 'Blood Oranges', category: 'produce', subcategory: 'Citrus', unit: 'CT', packSize: '48 CT', price: 38.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'CIT005', name: 'Clementines', category: 'produce', subcategory: 'Citrus', unit: 'LBS', packSize: '25 LBS', price: 35.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // BERRIES
+  { id: 'BER001', name: 'Blueberries Fresh', category: 'produce', subcategory: 'Berries', unit: 'LBS', packSize: '12/6 OZ', price: 42.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'BER002', name: 'Raspberries Fresh', category: 'produce', subcategory: 'Berries', unit: 'LBS', packSize: '12/6 OZ', price: 48.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'BER003', name: 'Blackberries Fresh', category: 'produce', subcategory: 'Berries', unit: 'LBS', packSize: '12/6 OZ', price: 45.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'BER004', name: 'Strawberries Organic', category: 'produce', subcategory: 'Berries', unit: 'LBS', packSize: '8/1 LB', price: 52.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // STONE FRUITS
+  { id: 'STO001', name: 'Peaches Yellow', category: 'produce', subcategory: 'Stone Fruits', unit: 'LBS', packSize: '25 LBS', price: 38.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'STO002', name: 'Peaches White', category: 'produce', subcategory: 'Stone Fruits', unit: 'LBS', packSize: '25 LBS', price: 42.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'STO003', name: 'Nectarines', category: 'produce', subcategory: 'Stone Fruits', unit: 'LBS', packSize: '25 LBS', price: 40.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'STO004', name: 'Plums Red', category: 'produce', subcategory: 'Stone Fruits', unit: 'LBS', packSize: '28 LBS', price: 36.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'STO005', name: 'Plums Black', category: 'produce', subcategory: 'Stone Fruits', unit: 'LBS', packSize: '28 LBS', price: 38.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'STO006', name: 'Cherries Bing', category: 'produce', subcategory: 'Stone Fruits', unit: 'LBS', packSize: '18 LBS', price: 68.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'STO007', name: 'Apricots', category: 'produce', subcategory: 'Stone Fruits', unit: 'LBS', packSize: '24 LBS', price: 44.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // MELONS - Additional Varieties
+  { id: 'MEL001', name: 'Watermelon Seedless', category: 'produce', subcategory: 'Melons', unit: 'CT', packSize: '45 LBS', price: 68.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'MEL002', name: 'Watermelon Mini', category: 'produce', subcategory: 'Melons', unit: 'CT', packSize: '75 CT', price: 85.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'MEL003', name: 'Honeydew Jumbo', category: 'produce', subcategory: 'Melons', unit: 'CT', packSize: '5 CT', price: 28.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'MEL004', name: 'Cantaloupe Premium', category: 'produce', subcategory: 'Melons', unit: 'CT', packSize: '9 CT', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // FRESH HERBS
+  { id: 'HER001', name: 'Basil Fresh', category: 'produce', subcategory: 'Herbs', unit: 'CT', packSize: '60 CT', price: 28.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'HER002', name: 'Mint Fresh', category: 'produce', subcategory: 'Herbs', unit: 'CT', packSize: '48 CT', price: 26.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'HER003', name: 'Oregano Fresh', category: 'produce', subcategory: 'Herbs', unit: 'CT', packSize: '48 CT', price: 24.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'HER004', name: 'Thyme Fresh', category: 'produce', subcategory: 'Herbs', unit: 'CT', packSize: '48 CT', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'HER005', name: 'Rosemary Fresh', category: 'produce', subcategory: 'Herbs', unit: 'CT', packSize: '48 CT', price: 30.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'HER006', name: 'Dill Fresh', category: 'produce', subcategory: 'Herbs', unit: 'CT', packSize: '48 CT', price: 28.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'HER007', name: 'Sage Fresh', category: 'produce', subcategory: 'Herbs', unit: 'CT', packSize: '48 CT', price: 34.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // LEAFY GREENS - Additional Varieties
+  { id: 'GRE001', name: 'Kale Curly', category: 'produce', subcategory: 'Greens', unit: 'CT', packSize: '24 CT', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'GRE002', name: 'Kale Lacinato', category: 'produce', subcategory: 'Greens', unit: 'CT', packSize: '24 CT', price: 34.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'GRE003', name: 'Swiss Chard Rainbow', category: 'produce', subcategory: 'Greens', unit: 'CT', packSize: '24 CT', price: 36.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'GRE004', name: 'Collard Greens', category: 'produce', subcategory: 'Greens', unit: 'CT', packSize: '24 CT', price: 28.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'GRE005', name: 'Mustard Greens', category: 'produce', subcategory: 'Greens', unit: 'CT', packSize: '24 CT', price: 26.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'GRE006', name: 'Arugula', category: 'produce', subcategory: 'Greens', unit: 'LBS', packSize: '3 LBS', price: 24.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'GRE007', name: 'Watercress', category: 'produce', subcategory: 'Greens', unit: 'CT', packSize: '24 CT', price: 38.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // CRUCIFEROUS VEGETABLES
+  { id: 'CRU001', name: 'Broccoli Crowns', category: 'produce', subcategory: 'Broccoli', unit: 'CT', packSize: '14 CT', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'CRU002', name: 'Broccoli Bunch', category: 'produce', subcategory: 'Broccoli', unit: 'CT', packSize: '14 CT', price: 28.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'CRU003', name: 'Cauliflower White', category: 'produce', subcategory: 'Cauliflower', unit: 'CT', packSize: '12 CT', price: 34.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'CRU004', name: 'Cauliflower Purple', category: 'produce', subcategory: 'Cauliflower', unit: 'CT', packSize: '12 CT', price: 42.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'CRU005', name: 'Brussels Sprouts', category: 'produce', subcategory: 'Brussels Sprouts', unit: 'LBS', packSize: '25 LBS', price: 38.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'CRU006', name: 'Broccolini', category: 'produce', subcategory: 'Broccoli', unit: 'CT', packSize: '18 CT', price: 42.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // SPECIALTY VEGETABLES
+  { id: 'SPE001', name: 'Artichokes', category: 'produce', subcategory: 'Specialty', unit: 'CT', packSize: '24 CT', price: 48.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'SPE002', name: 'Fennel Bulb', category: 'produce', subcategory: 'Specialty', unit: 'CT', packSize: '24 CT', price: 36.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'SPE003', name: 'Leeks', category: 'produce', subcategory: 'Specialty', unit: 'CT', packSize: '24 CT', price: 34.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'SPE004', name: 'Shallots', category: 'produce', subcategory: 'Onions', unit: 'LBS', packSize: '10 LBS', price: 42.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'SPE005', name: 'Rhubarb', category: 'produce', subcategory: 'Specialty', unit: 'LBS', packSize: '15 LBS', price: 38.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // ASIAN VEGETABLES
+  { id: 'ASI001', name: 'Bok Choy Baby', category: 'produce', subcategory: 'Asian Vegetables', unit: 'CT', packSize: '24 CT', price: 28.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ASI002', name: 'Bok Choy Regular', category: 'produce', subcategory: 'Asian Vegetables', unit: 'LBS', packSize: '30 LBS', price: 24.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ASI003', name: 'Daikon Radish', category: 'produce', subcategory: 'Asian Vegetables', unit: 'LBS', packSize: '25 LBS', price: 22.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ASI004', name: 'Napa Cabbage', category: 'produce', subcategory: 'Asian Vegetables', unit: 'CT', packSize: '24 CT', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ASI005', name: 'Thai Basil', category: 'produce', subcategory: 'Herbs', unit: 'CT', packSize: '48 CT', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ASI006', name: 'Lemongrass', category: 'produce', subcategory: 'Herbs', unit: 'LBS', packSize: '10 LBS', price: 36.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // TROPICAL FRUITS - Additional
+  { id: 'TRO001', name: 'Coconut Young Water', category: 'produce', subcategory: 'Coconut', unit: 'CT', packSize: '9 CT', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'TRO002', name: 'Starfruit', category: 'produce', subcategory: 'Tropical Fruits', unit: 'LBS', packSize: '10 LBS', price: 38.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'TRO003', name: 'Lychee Fresh', category: 'produce', subcategory: 'Tropical Fruits', unit: 'LBS', packSize: '15 LBS', price: 58.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'TRO004', name: 'Longan Fresh', category: 'produce', subcategory: 'Tropical Fruits', unit: 'LBS', packSize: '15 LBS', price: 52.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'TRO005', name: 'Rambutan', category: 'produce', subcategory: 'Tropical Fruits', unit: 'LBS', packSize: '12 LBS', price: 48.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'TRO006', name: 'Pomegranate', category: 'produce', subcategory: 'Tropical Fruits', unit: 'CT', packSize: '36 CT', price: 42.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'TRO007', name: 'Persimmon Fuyu', category: 'produce', subcategory: 'Tropical Fruits', unit: 'LBS', packSize: '22 LBS', price: 46.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // ADDITIONAL ROOT VEGETABLES
+  { id: 'ROO001', name: 'Sweet Potatoes Orange', category: 'produce', subcategory: 'Sweet Potatoes', unit: 'LBS', packSize: '40 LBS', price: 28.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ROO002', name: 'Sweet Potatoes Purple', category: 'produce', subcategory: 'Sweet Potatoes', unit: 'LBS', packSize: '40 LBS', price: 34.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ROO003', name: 'Turnips', category: 'produce', subcategory: 'Root Vegetables', unit: 'LBS', packSize: '25 LBS', price: 18.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ROO004', name: 'Parsnips', category: 'produce', subcategory: 'Root Vegetables', unit: 'LBS', packSize: '25 LBS', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ROO005', name: 'Rutabaga', category: 'produce', subcategory: 'Root Vegetables', unit: 'LBS', packSize: '30 LBS', price: 22.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'ROO006', name: 'Horseradish Root', category: 'produce', subcategory: 'Root Vegetables', unit: 'LBS', packSize: '10 LBS', price: 48.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // ADDITIONAL SQUASH VARIETIES
+  { id: 'SQU003', name: 'Butternut Squash', category: 'produce', subcategory: 'Squash', unit: 'LBS', packSize: '35 LBS', price: 24.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'SQU004', name: 'Acorn Squash', category: 'produce', subcategory: 'Squash', unit: 'LBS', packSize: '35 LBS', price: 26.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'SQU005', name: 'Spaghetti Squash', category: 'produce', subcategory: 'Squash', unit: 'LBS', packSize: '35 LBS', price: 22.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'SQU006', name: 'Delicata Squash', category: 'produce', subcategory: 'Squash', unit: 'LBS', packSize: '25 LBS', price: 28.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'SQU007', name: 'Kabocha Squash', category: 'produce', subcategory: 'Squash', unit: 'LBS', packSize: '30 LBS', price: 32.50, priceEffectiveDate: '2025-11-22', inStock: true },
+
+  // SPECIALTY GREENS
+  { id: 'SAL002', name: 'Spring Mix', category: 'produce', subcategory: 'Salads', unit: 'LBS', packSize: '4/5 LBS', price: 52.50, priceEffectiveDate: '2025-11-22', inStock: true },
+  { id: 'SAL003', name: 'Mixed Baby Greens', category: 'produce', subcategory: 'Salads', unit: 'LBS', packSize: '3 LBS', price: 48.50, priceEffectiveDate: '2025-11-22', inStock: true },
+];
+
+export const allProduceProducts = [...produceProducts, ...dailyAvocados, ...wholesaleProducts];

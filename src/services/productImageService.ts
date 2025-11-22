@@ -239,6 +239,103 @@ const EXACT_PRODUCT_IMAGES: ImageMapping = {
 
   // YUCA (Cassava)
   'Yuca Root': 'https://images.unsplash.com/photo-1606044466411-207a9a49711f?w=800&q=80',
+
+  // ADDITIONAL CITRUS
+  'Lemons Fancy': 'https://images.unsplash.com/photo-1587486937018-e9f9b1e47cdd?w=800&q=80',
+  'Lemons Choice': 'https://images.unsplash.com/photo-1587486937018-e9f9b1e47cdd?w=800&q=80',
+  'Tangerines': 'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=800&q=80',
+  'Blood Oranges': 'https://images.unsplash.com/photo-1547514701-42782101795e?w=800&q=80',
+  'Clementines': 'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=800&q=80',
+
+  // BERRIES - Fresh
+  'Blueberries': 'https://images.unsplash.com/photo-1596543225162-27748609fffb?w=800&q=80',
+  'Raspberries': 'https://images.unsplash.com/photo-1577069861033-55d04cec4ef5?w=800&q=80',
+  'Blackberries': 'https://images.unsplash.com/photo-1598032896435-79482c27b7c5?w=800&q=80',
+  'Strawberries Organic': 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=800&q=80',
+
+  // STONE FRUITS
+  'Peaches Yellow': 'https://images.unsplash.com/photo-1629828874514-b1f0cc5cd90f?w=800&q=80',
+  'Peaches White': 'https://images.unsplash.com/photo-1629828874514-b1f0cc5cd90f?w=800&q=80',
+  'Nectarines': 'https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=800&q=80',
+  'Plums Red': 'https://images.unsplash.com/photo-1509973340e91-b3a7a4a008f1?w=800&q=80',
+  'Plums Black': 'https://images.unsplash.com/photo-1509973340e91-b3a7a4a008f1?w=800&q=80',
+  'Cherries Bing': 'https://images.unsplash.com/photo-1528821128474-27f963b062bf?w=800&q=80',
+  'Apricots': 'https://images.unsplash.com/photo-1604002081489-cacc37e4ba6d?w=800&q=80',
+
+  // WATERMELON VARIETIES
+  'Watermelon Seedless': 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&q=80',
+  'Watermelon Mini': 'https://images.unsplash.com/photo-1621583832264-e72a0e44f498?w=800&q=80',
+  'Honeydew Jumbo': 'https://images.unsplash.com/photo-1629827401980-924a2d431f83?w=800&q=80',
+  'Cantaloupe Premium': 'https://images.unsplash.com/photo-1563114773-84221bd62daa?w=800&q=80',
+
+  // FRESH HERBS - Expanded
+  'Basil Fresh': 'https://images.unsplash.com/photo-1618375569909-3c8616cf7733?w=800&q=80',
+  'Mint Fresh': 'https://images.unsplash.com/photo-1628556270448-4d4e4148e1b1?w=800&q=80',
+  'Oregano Fresh': 'https://images.unsplash.com/photo-1509963159-185af8f60f05?w=800&q=80',
+  'Thyme Fresh': 'https://images.unsplash.com/photo-1609170906829-1e0f2e3243dd?w=800&q=80',
+  'Rosemary Fresh': 'https://images.unsplash.com/photo-1616697396184-3fc6c6a0b633?w=800&q=80',
+  'Dill Fresh': 'https://images.unsplash.com/photo-1584363844973-9b539b2e8c9e?w=800&q=80',
+  'Sage Fresh': 'https://images.unsplash.com/photo-1591352242919-feb554b14472?w=800&q=80',
+  'Thai Basil': 'https://images.unsplash.com/photo-1618375569909-3c8616cf7733?w=800&q=80',
+  'Lemongrass': 'https://images.unsplash.com/photo-1609699513065-3f24f2feeb97?w=800&q=80',
+
+  // LEAFY GREENS - Additional
+  'Kale Curly': 'https://images.unsplash.com/photo-1541414779316-956a5084c0d4?w=800&q=80',
+  'Kale Lacinato': 'https://images.unsplash.com/photo-1541414779316-956a5084c0d4?w=800&q=80',
+  'Swiss Chard': 'https://images.unsplash.com/photo-1598030882427-c40ba442c9d1?w=800&q=80',
+  'Collard Greens': 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=800&q=80',
+  'Mustard Greens': 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=800&q=80',
+  'Arugula': 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80',
+  'Watercress': 'https://images.unsplash.com/photo-1607305387299-a3d9611cd469?w=800&q=80',
+
+  // CRUCIFEROUS VEGETABLES
+  'Broccoli Crowns': 'https://images.unsplash.com/photo-1628773822990-202c20f9e27b?w=800&q=80',
+  'Broccoli Bunch': 'https://images.unsplash.com/photo-1628773822990-202c20f9e27b?w=800&q=80',
+  'Cauliflower White': 'https://images.unsplash.com/photo-1568584711636-fdbc71d48ce0?w=800&q=80',
+  'Cauliflower Purple': 'https://images.unsplash.com/photo-1568584711636-fdbc71d48ce0?w=800&q=80',
+  'Brussels Sprouts': 'https://images.unsplash.com/photo-1616485601862-7f17a1c6e1ce?w=800&q=80',
+  'Broccolini': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=800&q=80',
+
+  // SPECIALTY VEGETABLES
+  'Artichokes': 'https://images.unsplash.com/photo-1625686999172-18c0da0cd6c6?w=800&q=80',
+  'Fennel Bulb': 'https://images.unsplash.com/photo-1634141393134-7e5ffef5bb37?w=800&q=80',
+  'Leeks': 'https://images.unsplash.com/photo-1623691906844-f9c86f4e1d4f?w=800&q=80',
+  'Shallots': 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&q=80',
+  'Rhubarb': 'https://images.unsplash.com/photo-1571942676516-bcab84649e44?w=800&q=80',
+
+  // ASIAN VEGETABLES
+  'Bok Choy Baby': 'https://images.unsplash.com/photo-1598030882427-c40ba442c9d1?w=800&q=80',
+  'Bok Choy Regular': 'https://images.unsplash.com/photo-1598030882427-c40ba442c9d1?w=800&q=80',
+  'Daikon Radish': 'https://images.unsplash.com/photo-1614961362674-0ab4e994c6fa?w=800&q=80',
+  'Napa Cabbage': 'https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?w=800&q=80',
+
+  // TROPICAL FRUITS - Additional
+  'Coconut Young': 'https://images.unsplash.com/photo-1599889953133-484e28ea42b3?w=800&q=80',
+  'Starfruit': 'https://images.unsplash.com/photo-1590562976558-38fc8c04c9f0?w=800&q=80',
+  'Lychee': 'https://images.unsplash.com/photo-1610383237246-e8c4743d2e24?w=800&q=80',
+  'Longan': 'https://images.unsplash.com/photo-1610383237246-e8c4743d2e24?w=800&q=80',
+  'Rambutan': 'https://images.unsplash.com/photo-1609160524979-6fcca5b62726?w=800&q=80',
+  'Pomegranate': 'https://images.unsplash.com/photo-1615485290097-7ad3b6ba9c7f?w=800&q=80',
+  'Persimmon': 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=800&q=80',
+
+  // ADDITIONAL ROOT VEGETABLES
+  'Sweet Potatoes Orange': 'https://images.unsplash.com/photo-1556617708-fb0bd1beaa12?w=800&q=80',
+  'Sweet Potatoes Purple': 'https://images.unsplash.com/photo-1556617708-fb0bd1beaa12?w=800&q=80',
+  'Turnips': 'https://images.unsplash.com/photo-1590165482129-1b8b27698780?w=800&q=80',
+  'Parsnips': 'https://images.unsplash.com/photo-1599021419962-9883af2ced60?w=800&q=80',
+  'Rutabaga': 'https://images.unsplash.com/photo-1590165482129-1b8b27698780?w=800&q=80',
+  'Horseradish': 'https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=800&q=80',
+
+  // ADDITIONAL SQUASH VARIETIES
+  'Butternut Squash': 'https://images.unsplash.com/photo-1570301099009-9b56f2e3d8b0?w=800&q=80',
+  'Acorn Squash': 'https://images.unsplash.com/photo-1570301099009-9b56f2e3d8b0?w=800&q=80',
+  'Spaghetti Squash': 'https://images.unsplash.com/photo-1570301099009-9b56f2e3d8b0?w=800&q=80',
+  'Delicata Squash': 'https://images.unsplash.com/photo-1570301099009-9b56f2e3d8b0?w=800&q=80',
+  'Kabocha Squash': 'https://images.unsplash.com/photo-1570301099009-9b56f2e3d8b0?w=800&q=80',
+
+  // SPECIALTY SALAD GREENS
+  'Spring Mix': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
+  'Mixed Baby Greens': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
 };
 
 // Fallback category images for products not matched exactly
@@ -300,6 +397,14 @@ const CATEGORY_IMAGES: ImageMapping = {
   'Coconut': 'https://images.unsplash.com/photo-1589606743769-2e4f0a0c9e0e?w=800&q=80',
   'Nopales': 'https://images.unsplash.com/photo-1626525849322-7c58c55f989b?w=800&q=80',
   'Specialty': 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=800&q=80',
+
+  // New Categories
+  'Stone Fruits': 'https://images.unsplash.com/photo-1629828874514-b1f0cc5cd90f?w=800&q=80',
+  'Broccoli': 'https://images.unsplash.com/photo-1628773822990-202c20f9e27b?w=800&q=80',
+  'Cauliflower': 'https://images.unsplash.com/photo-1568584711636-fdbc71d48ce0?w=800&q=80',
+  'Brussels Sprouts': 'https://images.unsplash.com/photo-1616485601862-7f17a1c6e1ce?w=800&q=80',
+  'Asian Vegetables': 'https://images.unsplash.com/photo-1598030882427-c40ba442c9d1?w=800&q=80',
+  'Sweet Potatoes': 'https://images.unsplash.com/photo-1556617708-fb0bd1beaa12?w=800&q=80',
 
   // Tortillas & Bread
   'Mission/Guerrero': 'https://images.unsplash.com/photo-1566527802736-83f8bda2f5cf?w=800&q=80',
