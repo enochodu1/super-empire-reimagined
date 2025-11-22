@@ -16,6 +16,7 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import B2BPortal from "./pages/B2BPortal";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => {
                   <Route path="/" element={<Index />} />
                   <Route path="/products" element={<Products />} />
                   <Route path="/cart" element={<Cart />} />
+                  <Route path="/b2b" element={<B2BPortal />} />
                   <Route
                     path="/admin"
                     element={
