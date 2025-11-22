@@ -38,6 +38,10 @@ const DocumentManagement = lazy(() => import("./pages/DocumentManagement"));
 const StandingOrders = lazy(() => import("./pages/StandingOrders"));
 const MultiLocationManagement = lazy(() => import("./pages/MultiLocationManagement"));
 const AdvancedFeatures = lazy(() => import("./pages/AdvancedFeatures"));
+const AboutUs = lazy(() => import("./pages/AboutUs"));
+const ContactUs = lazy(() => import("./pages/ContactUs"));
+const Services = lazy(() => import("./pages/Services"));
+const FAQ = lazy(() => import("./pages/FAQ"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -92,6 +96,12 @@ const App = () => {
                     <Route path="/standing-orders" element={<ProtectedRoute><StandingOrders /></ProtectedRoute>} />
                     <Route path="/multi-location" element={<ProtectedRoute><MultiLocationManagement /></ProtectedRoute>} />
                     <Route path="/advanced-features" element={<ProtectedRoute><AdvancedFeatures /></ProtectedRoute>} />
+
+                    {/* Public Pages */}
+                    <Route path="/about" element={<AboutUs />} />
+                    <Route path="/contact" element={<ContactUs />} />
+                    <Route path="/services" element={<Services />} />
+                    <Route path="/faq" element={<FAQ />} />
 
                     {/* Auth & Admin */}
                     <Route path="/admin" element={<ProtectedRoute requireAdmin><Admin /></ProtectedRoute>} />
