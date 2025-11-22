@@ -21,7 +21,6 @@ const Admin = lazy(() => import("./pages/Admin"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const Profile = lazy(() => import("./pages/Profile"));
-const B2BPortal = lazy(() => import("./pages/B2BPortal"));
 const InventoryManagement = lazy(() => import("./pages/InventoryManagement"));
 const BuyerDashboard = lazy(() => import("./pages/BuyerDashboard"));
 const VendorDashboard = lazy(() => import("./pages/VendorDashboard"));
@@ -67,7 +66,6 @@ const App = () => {
                     <Route path="/" element={<Index />} />
                     <Route path="/products" element={<Products />} />
                     <Route path="/cart" element={<Cart />} />
-                    <Route path="/b2b" element={<B2BPortal />} />
 
                     {/* Dashboards */}
                     <Route path="/inventory" element={<ProtectedRoute><InventoryManagement /></ProtectedRoute>} />

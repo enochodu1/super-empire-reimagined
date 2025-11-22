@@ -50,9 +50,9 @@ export const Navigation = () => {
             <Link to="/products" className="text-foreground hover:text-primary transition-colors font-medium">
               Browse Products
             </Link>
-            <Link to="/b2b" className="flex items-center gap-2 text-foreground hover:text-primary transition-colors font-medium">
+            <Link to="/advanced-features" className="flex items-center gap-2 text-foreground hover:text-primary transition-colors font-medium">
               <Building2 className="h-4 w-4" />
-              B2B Portal
+              B2B Features
               <Badge className="bg-accent-tomato text-white text-xs">Wholesale</Badge>
             </Link>
             <a href="/#coverage" className="text-foreground hover:text-primary transition-colors font-medium">
@@ -180,12 +180,12 @@ export const Navigation = () => {
               Browse Products
             </Link>
             <Link
-              to="/b2b"
+              to="/advanced-features"
               className="block text-foreground hover:text-primary transition-colors py-2 font-medium flex items-center gap-2"
               onClick={() => setIsOpen(false)}
             >
               <Building2 className="h-4 w-4" />
-              B2B Portal (Wholesale)
+              B2B Features (Wholesale)
             </Link>
             <a
               href="/#coverage"
