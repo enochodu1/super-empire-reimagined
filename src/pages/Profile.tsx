@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,8 +9,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Loader2, User, Package, Settings, LogOut } from 'lucide-react';
+import { Loader2, User, Package, Settings, LogOut, ShoppingCart, RotateCcw, Plus } from 'lucide-react';
 import { db } from '@/lib/supabase';
+import { SuperEmpireDB } from '@/lib/database';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { Navigation } from '@/components/Navigation';
@@ -17,6 +19,7 @@ import { Footer } from '@/components/Footer';
 
 export default function Profile() {
   const { user, profile, signOut, updateProfile, loading: authLoading } = useAuth();
+  const { addToCart } = useCart();
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState<any[]>([]);
   const [formData, setFormData] = useState({
@@ -85,6 +88,50 @@ export default function Profile() {
     navigate('/');
   };
 
+  const handleReorderAll = async (order: any) => {
+    if (!order.order_items || order.order_items.length === 0) {
+      toast.error('No items to reorder');
+      return;
+    }
+
+    // Get all products from database
+    const allProducts = SuperEmpireDB.getAllProducts();
+    let addedCount = 0;
+
+    // Add each item from the order to cart
+    order.order_items.forEach((orderItem: any) => {
+      const product = allProducts.find(p => p.id === orderItem.product_id);
+      if (product) {
+        addToCart(product, orderItem.quantity);
+        addedCount++;
+      }
+    });
+
+    if (addedCount > 0) {
+      toast.success(`Added ${addedCount} item${addedCount > 1 ? 's' : ''} to cart`, {
+        description: 'Review your cart and checkout when ready',
+        action: {
+          label: 'View Cart',
+          onClick: () => navigate('/cart'),
+        },
+      });
+    } else {
+      toast.error('Could not find products from this order');
+    }
+  };
+
+  const handleAddItemToCart = (orderItem: any) => {
+    const allProducts = SuperEmpireDB.getAllProducts();
+    const product = allProducts.find(p => p.id === orderItem.product_id);
+
+    if (product) {
+      addToCart(product, orderItem.quantity);
+      toast.success(`Added ${product.name} to cart`);
+    } else {
+      toast.error('Product not found');
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending':
@@ -145,6 +192,35 @@ export default function Profile() {
             </TabsList>
 
             <TabsContent value="profile">
+              {/* Membership Info Card */}
+              <Card className="mb-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-green-200 dark:border-green-800">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-1">Member Since</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {profile?.created_at ? format(new Date(profile.created_at), 'MMMM yyyy') : 'N/A'}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <Badge variant={profile?.role === 'admin' ? 'default' : 'secondary'} className="text-sm px-3 py-1">
+                        {profile?.role === 'admin' ? '👑 Admin Account' : '✓ Verified Business'}
+                      </Badge>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                        Account ID: {user?.id.slice(0, 8).toUpperCase()}
+                      </p>
+                    </div>
+                  </div>
+                  {profile?.business_name && (
+                    <div className="mt-4 pt-4 border-t border-green-200 dark:border-green-800">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <strong>Business:</strong> {profile.business_name}
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
               <Card>
                 <CardHeader>
                   <CardTitle>Profile Information</CardTitle>
@@ -292,10 +368,51 @@ export default function Profile() {
                                 {format(new Date(order.created_at), 'MMM dd, yyyy')}
                               </p>
                             </div>
-                            <Badge className={getStatusColor(order.status)}>
-                              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                            </Badge>
+                            <div className="flex items-center gap-2">
+                              <Badge className={getStatusColor(order.status)}>
+                                {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                              </Badge>
+                            </div>
                           </div>
+
+                          {/* Order Items List */}
+                          {order.order_items && order.order_items.length > 0 && (
+                            <div className="mb-4 space-y-2 border-t pt-3">
+                              <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                Order Items:
+                              </h4>
+                              {order.order_items.map((item: any, index: number) => (
+                                <div
+                                  key={index}
+                                  className="flex justify-between items-center text-sm py-2 px-3 bg-gray-50 dark:bg-gray-800 rounded"
+                                >
+                                  <div className="flex-1">
+                                    <span className="font-medium">{item.product_name}</span>
+                                    <span className="text-gray-600 dark:text-gray-400 ml-2">
+                                      × {item.quantity}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center gap-3">
+                                    <span className="font-semibold">
+                                      ${(item.price * item.quantity).toFixed(2)}
+                                    </span>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => handleAddItemToCart(item)}
+                                      className="h-7"
+                                    >
+                                      <Plus className="h-3 w-3 mr-1" />
+                                      Add
+                                    </Button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          <Separator className="my-3" />
+
                           <div className="space-y-2">
                             <div className="flex justify-between text-sm">
                               <span className="text-gray-600 dark:text-gray-400">Items:</span>
@@ -303,13 +420,25 @@ export default function Profile() {
                             </div>
                             <div className="flex justify-between text-sm">
                               <span className="text-gray-600 dark:text-gray-400">Total:</span>
-                              <span className="font-semibold">${order.total.toFixed(2)}</span>
+                              <span className="font-semibold text-lg">${order.total.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between text-sm">
                               <span className="text-gray-600 dark:text-gray-400">Delivery:</span>
                               <span>{order.delivery_city}, {order.delivery_state}</span>
                             </div>
                           </div>
+
+                          <Separator className="my-3" />
+
+                          {/* Quick Reorder Button */}
+                          <Button
+                            onClick={() => handleReorderAll(order)}
+                            className="w-full"
+                            variant="default"
+                          >
+                            <RotateCcw className="h-4 w-4 mr-2" />
+                            Reorder All Items
+                          </Button>
                         </Card>
                       ))}
                     </div>
