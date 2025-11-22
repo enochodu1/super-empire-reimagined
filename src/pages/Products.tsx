@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { getAllSubcategories } from '@/data/allProducts';
+import { getAllSubcategories, getAllDepartments, getAllTags } from '@/data/allProducts';
 import { Product } from '@/types/product';
 import { useCart } from '@/contexts/CartContext';
 import { SuperEmpireDB } from '@/lib/database';
@@ -54,6 +54,8 @@ const Products = () => {
     searchQuery: '',
     categories: [],
     subcategories: [],
+    departments: [],
+    tags: [],
     priceRange: [priceRange.min, priceRange.max],
     stockStatus: [],
     sortBy: 'name-asc',
@@ -90,7 +92,7 @@ const Products = () => {
   // Fuzzy search with Fuse.js
   const fuse = useMemo(() => {
     return new Fuse(products, {
-      keys: ['name', 'subcategory', 'id', 'category'],
+      keys: ['name', 'subcategory', 'id', 'category', 'department', 'tags', 'origin'],
       threshold: 0.3,
       includeScore: true,
       minMatchCharLength: 2,
@@ -117,6 +119,20 @@ const Products = () => {
     if (filters.subcategories.length > 0) {
       filtered = filtered.filter(p =>
         p.subcategory && filters.subcategories.includes(p.subcategory)
+      );
+    }
+
+    // Filter by departments (multi-select)
+    if (filters.departments.length > 0) {
+      filtered = filtered.filter(p =>
+        p.department && filters.departments.includes(p.department)
+      );
+    }
+
+    // Filter by tags (multi-select - product must have ALL selected tags)
+    if (filters.tags.length > 0) {
+      filtered = filtered.filter(p =>
+        p.tags && filters.tags.every(tag => p.tags?.includes(tag as any))
       );
     }
 
@@ -171,8 +187,10 @@ const Products = () => {
     }));
   }, [products]);
 
-  // Get all subcategories
+  // Get all subcategories, departments, and tags
   const subcategories = getAllSubcategories();
+  const departments = getAllDepartments();
+  const tags = getAllTags();
 
   const handleQuantityChange = (productId: string, value: string) => {
     const quantity = parseInt(value) || 0;
@@ -289,6 +307,8 @@ const Products = () => {
               onFiltersChange={setFilters}
               availableCategories={availableCategories}
               availableSubcategories={subcategories}
+              availableDepartments={departments}
+              availableTags={tags}
               priceMin={priceRange.min}
               priceMax={priceRange.max}
               productCount={filteredProducts.length}

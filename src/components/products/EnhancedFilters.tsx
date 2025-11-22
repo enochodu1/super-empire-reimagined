@@ -18,12 +18,14 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { Search, Filter, ChevronDown, X, DollarSign, Package } from 'lucide-react';
+import { Search, Filter, ChevronDown, X, DollarSign, Package, Building2, Tags } from 'lucide-react';
 
 export interface FilterState {
   searchQuery: string;
   categories: string[];
   subcategories: string[];
+  departments: string[];
+  tags: string[];
   priceRange: [number, number];
   stockStatus: string[];
   sortBy: string;
@@ -34,6 +36,8 @@ interface EnhancedFiltersProps {
   onFiltersChange: (filters: FilterState) => void;
   availableCategories: { value: string; label: string; count: number }[];
   availableSubcategories: string[];
+  availableDepartments: string[];
+  availableTags: string[];
   priceMin: number;
   priceMax: number;
   productCount: number;
@@ -44,6 +48,8 @@ export const EnhancedFilters = ({
   onFiltersChange,
   availableCategories,
   availableSubcategories,
+  availableDepartments,
+  availableTags,
   priceMin,
   priceMax,
   productCount,
@@ -51,6 +57,8 @@ export const EnhancedFilters = ({
   const [priceOpen, setPriceOpen] = useState(true);
   const [categoryOpen, setCategoryOpen] = useState(true);
   const [subcategoryOpen, setSubcategoryOpen] = useState(false);
+  const [departmentOpen, setDepartmentOpen] = useState(false);
+  const [tagsOpen, setTagsOpen] = useState(false);
   const [stockOpen, setStockOpen] = useState(false);
 
   const updateFilters = (updates: Partial<FilterState>) => {
@@ -71,6 +79,20 @@ export const EnhancedFilters = ({
     updateFilters({ subcategories: newSubcategories });
   };
 
+  const toggleDepartment = (department: string) => {
+    const newDepartments = filters.departments.includes(department)
+      ? filters.departments.filter((d) => d !== department)
+      : [...filters.departments, department];
+    updateFilters({ departments: newDepartments });
+  };
+
+  const toggleTag = (tag: string) => {
+    const newTags = filters.tags.includes(tag)
+      ? filters.tags.filter((t) => t !== tag)
+      : [...filters.tags, tag];
+    updateFilters({ tags: newTags });
+  };
+
   const toggleStockStatus = (status: string) => {
     const newStatus = filters.stockStatus.includes(status)
       ? filters.stockStatus.filter((s) => s !== status)
@@ -83,6 +105,8 @@ export const EnhancedFilters = ({
       searchQuery: '',
       categories: [],
       subcategories: [],
+      departments: [],
+      tags: [],
       priceRange: [priceMin, priceMax],
       stockStatus: [],
       sortBy: 'name-asc',
@@ -93,6 +117,8 @@ export const EnhancedFilters = ({
     filters.searchQuery ||
     filters.categories.length > 0 ||
     filters.subcategories.length > 0 ||
+    filters.departments.length > 0 ||
+    filters.tags.length > 0 ||
     filters.priceRange[0] !== priceMin ||
     filters.priceRange[1] !== priceMax ||
     filters.stockStatus.length > 0;
@@ -262,6 +288,81 @@ export const EnhancedFilters = ({
                   </label>
                 </div>
               ))}
+            </CollapsibleContent>
+          </Collapsible>
+        )}
+
+        {/* Department Multi-Select */}
+        {availableDepartments.length > 0 && (
+          <Collapsible open={departmentOpen} onOpenChange={setDepartmentOpen}>
+            <CollapsibleTrigger className="w-full">
+              <div className="flex items-center justify-between w-full py-2">
+                <Label className="text-sm font-medium flex items-center gap-2">
+                  <Building2 className="h-4 w-4" />
+                  Departments
+                  {filters.departments.length > 0 && (
+                    <Badge variant="secondary" className="ml-2">
+                      {filters.departments.length}
+                    </Badge>
+                  )}
+                </Label>
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${departmentOpen ? 'rotate-180' : ''}`}
+                />
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-2 pt-2">
+              {availableDepartments.map((department) => (
+                <div key={department} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`department-${department}`}
+                    checked={filters.departments.includes(department)}
+                    onCheckedChange={() => toggleDepartment(department)}
+                  />
+                  <label
+                    htmlFor={`department-${department}`}
+                    className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                  >
+                    {department}
+                  </label>
+                </div>
+              ))}
+            </CollapsibleContent>
+          </Collapsible>
+        )}
+
+        {/* Product Tags Multi-Select */}
+        {availableTags.length > 0 && (
+          <Collapsible open={tagsOpen} onOpenChange={setTagsOpen}>
+            <CollapsibleTrigger className="w-full">
+              <div className="flex items-center justify-between w-full py-2">
+                <Label className="text-sm font-medium flex items-center gap-2">
+                  <Filter className="h-4 w-4" />
+                  Product Tags
+                  {filters.tags.length > 0 && (
+                    <Badge variant="secondary" className="ml-2">
+                      {filters.tags.length}
+                    </Badge>
+                  )}
+                </Label>
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${tagsOpen ? 'rotate-180' : ''}`}
+                />
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="pt-2">
+              <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto">
+                {availableTags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant={filters.tags.includes(tag) ? 'default' : 'outline'}
+                    className="cursor-pointer hover:bg-primary/80 transition-colors"
+                    onClick={() => toggleTag(tag)}
+                  >
+                    {tag.replace(/-/g, ' ')}
+                  </Badge>
+                ))}
+              </div>
             </CollapsibleContent>
           </Collapsible>
         )}

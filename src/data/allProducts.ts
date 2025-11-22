@@ -2,12 +2,19 @@ import { Product } from '@/types/product';
 import { allProduceProducts } from './products';
 import tortillaProducts from './tortillaProducts';
 import { addImagesToProducts } from '@/services/productImageService';
+import { enhanceProducts } from '@/services/productCategorizationService';
 
-// Combine all products and add high-quality images
-export const allProducts: Product[] = addImagesToProducts([
+// Combine all products, add high-quality images, and enhance with categorization
+const rawProducts = [
   ...allProduceProducts,
   ...tortillaProducts,
-]);
+];
+
+// Apply image service
+const productsWithImages = addImagesToProducts(rawProducts);
+
+// Apply categorization (departments, enhanced subcategories, tags, origin, etc.)
+export const allProducts: Product[] = enhanceProducts(productsWithImages);
 
 // Helper functions for product filtering
 export const getProductsByCategory = (category: string) => {
@@ -36,6 +43,46 @@ export const getAllSubcategories = () => {
 
 export const getProductById = (id: string) => {
   return allProducts.find(product => product.id === id);
+};
+
+// Filter by department
+export const getProductsByDepartment = (department: string) => {
+  return allProducts.filter(product => product.department === department);
+};
+
+// Filter by tags
+export const getProductsByTag = (tag: string) => {
+  return allProducts.filter(product => product.tags?.includes(tag as any));
+};
+
+// Filter by multiple tags (AND logic - product must have ALL tags)
+export const getProductsByTags = (tags: string[]) => {
+  return allProducts.filter(product =>
+    tags.every(tag => product.tags?.includes(tag as any))
+  );
+};
+
+// Get all unique departments
+export const getAllDepartments = () => {
+  const departments = allProducts
+    .map(product => product.department)
+    .filter((dept): dept is string => dept !== undefined);
+  return Array.from(new Set(departments)).sort();
+};
+
+// Get all unique tags
+export const getAllTags = () => {
+  const tags = allProducts
+    .flatMap(product => product.tags || []);
+  return Array.from(new Set(tags)).sort();
+};
+
+// Get all unique origins
+export const getAllOrigins = () => {
+  const origins = allProducts
+    .map(product => product.origin)
+    .filter((origin): origin is string => origin !== undefined);
+  return Array.from(new Set(origins)).sort();
 };
 
 export default allProducts;
