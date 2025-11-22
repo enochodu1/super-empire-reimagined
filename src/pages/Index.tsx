@@ -11,6 +11,8 @@ import { Contact } from "@/components/Contact";
 import { FAQ } from "@/components/FAQ";
 import { Newsletter } from "@/components/Newsletter";
 import { CTA } from "@/components/CTA";
+import { SocialMediaFeed } from "@/components/SocialMediaFeed";
+import { MobileAppLinks } from "@/components/MobileAppLinks";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -28,6 +30,10 @@ const Index = () => {
       <Contact />
       <FAQ />
       <Newsletter />
+      <div className="container mx-auto px-4 py-12 space-y-8">
+        <SocialMediaFeed />
+        <MobileAppLinks />
+      </div>
       <CTA />
       <Footer />
     </div>
