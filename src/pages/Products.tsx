@@ -6,12 +6,8 @@ import { Product } from '@/types/product';
 import { useCart } from '@/contexts/CartContext';
 import { SuperEmpireDB } from '@/lib/database';
 import { COMPANY_INFO } from '@/lib/companyInfo';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Filter, Clock, BookMarked } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 import Fuse from 'fuse.js';
 
 // Import all view components
@@ -21,18 +17,36 @@ import { ListView } from '@/components/products/ListView';
 import { TableView } from '@/components/products/TableView';
 import { CompactView } from '@/components/products/CompactView';
 import { QuickActions } from '@/components/products/QuickActions';
+import { EnhancedFilters, FilterState } from '@/components/products/EnhancedFilters';
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string>('all');
   const [quantityInputs, setQuantityInputs] = useState<Record<string, number>>({});
 
   // View mode with localStorage persistence
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     const saved = localStorage.getItem('superempire_view_mode');
     return (saved as ViewMode) || 'grid';
+  });
+
+  // Calculate price range from products
+  const priceRange = useMemo(() => {
+    if (products.length === 0) return { min: 0, max: 100 };
+    const prices = products.map(p => p.price);
+    return {
+      min: Math.floor(Math.min(...prices)),
+      max: Math.ceil(Math.max(...prices))
+    };
+  }, [products]);
+
+  // Enhanced filters state
+  const [filters, setFilters] = useState<FilterState>({
+    searchQuery: '',
+    categories: [],
+    subcategories: [],
+    priceRange: [priceRange.min, priceRange.max],
+    stockStatus: [],
+    sortBy: 'name-asc',
   });
 
   const { addToCart } = useCart();
@@ -43,6 +57,16 @@ const Products = () => {
     setProducts(loadedProducts);
   }, []);
 
+  // Update price range when products load
+  useEffect(() => {
+    if (products.length > 0 && filters.priceRange[0] === 0 && filters.priceRange[1] === 100) {
+      setFilters(prev => ({
+        ...prev,
+        priceRange: [priceRange.min, priceRange.max]
+      }));
+    }
+  }, [products, priceRange]);
+
   // Persist view mode to localStorage
   useEffect(() => {
     localStorage.setItem('superempire_view_mode', viewMode);
@@ -52,36 +76,87 @@ const Products = () => {
   const fuse = useMemo(() => {
     return new Fuse(products, {
       keys: ['name', 'subcategory', 'id', 'category'],
-      threshold: 0.3, // 0 = perfect match, 1 = match anything
+      threshold: 0.3,
       includeScore: true,
       minMatchCharLength: 2,
     });
   }, [products]);
 
-  // Filter products based on search and filters
+  // Filter and sort products
   const filteredProducts = useMemo(() => {
     let filtered = products;
 
-    // Filter by category first
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(p => p.category === selectedCategory);
-    }
-
-    // Filter by subcategory
-    if (selectedSubcategory !== 'all') {
-      filtered = filtered.filter(p => p.subcategory === selectedSubcategory);
-    }
-
     // Apply fuzzy search if query exists
-    if (searchQuery && searchQuery.length >= 2) {
-      const fuseResults = fuse.search(searchQuery);
+    if (filters.searchQuery && filters.searchQuery.length >= 2) {
+      const fuseResults = fuse.search(filters.searchQuery);
       const searchedIds = new Set(fuseResults.map(r => r.item.id));
       filtered = filtered.filter(p => searchedIds.has(p.id));
     }
 
-    return filtered;
-  }, [products, fuse, searchQuery, selectedCategory, selectedSubcategory]);
+    // Filter by categories (multi-select)
+    if (filters.categories.length > 0) {
+      filtered = filtered.filter(p => filters.categories.includes(p.category));
+    }
 
+    // Filter by subcategories (multi-select)
+    if (filters.subcategories.length > 0) {
+      filtered = filtered.filter(p =>
+        p.subcategory && filters.subcategories.includes(p.subcategory)
+      );
+    }
+
+    // Filter by price range
+    filtered = filtered.filter(p =>
+      p.price >= filters.priceRange[0] && p.price <= filters.priceRange[1]
+    );
+
+    // Filter by stock status
+    if (filters.stockStatus.length > 0) {
+      filtered = filtered.filter(p => filters.stockStatus.includes(p.stockStatus));
+    }
+
+    // Apply sorting
+    filtered = [...filtered].sort((a, b) => {
+      switch (filters.sortBy) {
+        case 'name-asc':
+          return a.name.localeCompare(b.name);
+        case 'name-desc':
+          return b.name.localeCompare(a.name);
+        case 'price-asc':
+          return a.price - b.price;
+        case 'price-desc':
+          return b.price - a.price;
+        case 'category':
+          return a.category.localeCompare(b.category) || a.name.localeCompare(b.name);
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  }, [products, fuse, filters]);
+
+  // Get available categories with counts
+  const availableCategories = useMemo(() => {
+    const categoryMap = new Map<string, number>();
+    products.forEach(p => {
+      categoryMap.set(p.category, (categoryMap.get(p.category) || 0) + 1);
+    });
+
+    const categoryLabels: Record<string, string> = {
+      produce: 'Fresh Produce',
+      tortilla: 'Tortillas & Chips',
+      dairy: 'Dairy Products',
+    };
+
+    return Array.from(categoryMap.entries()).map(([value, count]) => ({
+      value,
+      label: categoryLabels[value] || value,
+      count,
+    }));
+  }, [products]);
+
+  // Get all subcategories
   const subcategories = getAllSubcategories();
 
   const handleQuantityChange = (productId: string, value: string) => {
@@ -93,7 +168,7 @@ const Products = () => {
     const quantity = quantityInputs[product.id] || 1;
     if (quantity > 0) {
       addToCart(product, quantity);
-      setQuantityInputs(prev => ({ ...prev, [product.id]: 0 })); // Reset quantity
+      setQuantityInputs(prev => ({ ...prev, [product.id]: 0 }));
     }
   };
 
@@ -102,12 +177,6 @@ const Products = () => {
       style: 'currency',
       currency: 'USD',
     }).format(price);
-  };
-
-  const clearFilters = () => {
-    setSearchQuery('');
-    setSelectedCategory('all');
-    setSelectedSubcategory('all');
   };
 
   // Load shopping list or order into cart
@@ -120,7 +189,7 @@ const Products = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <Navigation />
 
       <div className="container mx-auto px-4 py-24">
@@ -129,7 +198,7 @@ const Products = () => {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
             Our Product Catalog
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             {COMPANY_INFO.serviceArea.description}
           </p>
           <Badge className="mt-4 bg-green-500 text-white">
@@ -146,124 +215,80 @@ const Products = () => {
           />
         </div>
 
-        {/* Search and Filters */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Filter className="h-5 w-5" />
-              Search & Filter Products
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-4">
-              {/* Search */}
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <Input
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
+        {/* Layout: Filters Sidebar + Products Grid */}
+        <div className="grid lg:grid-cols-[300px_1fr] gap-8">
+          {/* Enhanced Filters Sidebar */}
+          <aside className="lg:sticky lg:top-24 lg:self-start">
+            <EnhancedFilters
+              filters={filters}
+              onFiltersChange={setFilters}
+              availableCategories={availableCategories}
+              availableSubcategories={subcategories}
+              priceMin={priceRange.min}
+              priceMax={priceRange.max}
+              productCount={filteredProducts.length}
+            />
+          </aside>
 
-              {/* Category Filter */}
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All Categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="produce">Fresh Produce</SelectItem>
-                  <SelectItem value="tortilla">Tortillas & Chips</SelectItem>
-                  <SelectItem value="dairy">Dairy Products</SelectItem>
-                </SelectContent>
-              </Select>
-
-              {/* Subcategory Filter */}
-              <Select value={selectedSubcategory} onValueChange={setSelectedSubcategory}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All Subcategories" />
-                </SelectTrigger>
-                <SelectContent className="max-h-[300px]">
-                  <SelectItem value="all">All Subcategories</SelectItem>
-                  {subcategories.map((sub) => (
-                    <SelectItem key={sub} value={sub}>
-                      {sub}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+          {/* Products Display */}
+          <div>
+            {/* View Mode Switcher */}
+            <div className="mb-6 flex items-center justify-end">
+              <ViewSwitcher view={viewMode} onViewChange={setViewMode} />
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Results Count & View Switcher */}
-        <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
-          <div className="flex items-center gap-4">
-            <p className="text-gray-600">
-              Showing <span className="font-semibold">{filteredProducts.length}</span> products
-            </p>
-            {(searchQuery || selectedCategory !== 'all' || selectedSubcategory !== 'all') && (
-              <Button variant="outline" size="sm" onClick={clearFilters}>
-                Clear Filters
-              </Button>
+            {/* Dynamic View Rendering */}
+            {viewMode === 'grid' && (
+              <GridView
+                products={filteredProducts}
+                quantityInputs={quantityInputs}
+                onQuantityChange={handleQuantityChange}
+                onAddToCart={handleAddToCart}
+                formatPrice={formatPrice}
+              />
+            )}
+
+            {viewMode === 'list' && (
+              <ListView
+                products={filteredProducts}
+                quantityInputs={quantityInputs}
+                onQuantityChange={handleQuantityChange}
+                onAddToCart={handleAddToCart}
+                formatPrice={formatPrice}
+              />
+            )}
+
+            {viewMode === 'table' && (
+              <TableView
+                products={filteredProducts}
+                quantityInputs={quantityInputs}
+                onQuantityChange={handleQuantityChange}
+                onAddToCart={handleAddToCart}
+                formatPrice={formatPrice}
+              />
+            )}
+
+            {viewMode === 'compact' && (
+              <CompactView
+                products={filteredProducts}
+                quantityInputs={quantityInputs}
+                onQuantityChange={handleQuantityChange}
+                onAddToCart={handleAddToCart}
+                formatPrice={formatPrice}
+              />
+            )}
+
+            {/* Empty State */}
+            {filteredProducts.length === 0 && (
+              <Card className="p-12 text-center">
+                <p className="text-xl text-gray-500 dark:text-gray-400 mb-4">No products found</p>
+                <p className="text-gray-400 dark:text-gray-500 mb-6">
+                  Try adjusting your filters or search query
+                </p>
+              </Card>
             )}
           </div>
-
-          {/* View Mode Switcher */}
-          <ViewSwitcher view={viewMode} onViewChange={setViewMode} />
         </div>
-
-        {/* Dynamic View Rendering */}
-        {viewMode === 'grid' && (
-          <GridView
-            products={filteredProducts}
-            quantityInputs={quantityInputs}
-            onQuantityChange={handleQuantityChange}
-            onAddToCart={handleAddToCart}
-            formatPrice={formatPrice}
-          />
-        )}
-
-        {viewMode === 'list' && (
-          <ListView
-            products={filteredProducts}
-            quantityInputs={quantityInputs}
-            onQuantityChange={handleQuantityChange}
-            onAddToCart={handleAddToCart}
-            formatPrice={formatPrice}
-          />
-        )}
-
-        {viewMode === 'table' && (
-          <TableView
-            products={filteredProducts}
-            quantityInputs={quantityInputs}
-            onQuantityChange={handleQuantityChange}
-            onAddToCart={handleAddToCart}
-            formatPrice={formatPrice}
-          />
-        )}
-
-        {viewMode === 'compact' && (
-          <CompactView
-            products={filteredProducts}
-            quantityInputs={quantityInputs}
-            onQuantityChange={handleQuantityChange}
-            onAddToCart={handleAddToCart}
-            formatPrice={formatPrice}
-          />
-        )}
-
-        {/* Empty State */}
-        {filteredProducts.length === 0 && (
-          <Card className="p-12 text-center">
-            <p className="text-xl text-gray-500 mb-4">No products found</p>
-            <p className="text-gray-400 mb-6">Try adjusting your filters or search query</p>
-            <Button onClick={clearFilters}>Clear All Filters</Button>
-          </Card>
-        )}
       </div>
 
       <Footer />

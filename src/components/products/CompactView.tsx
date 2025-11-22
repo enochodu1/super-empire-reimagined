@@ -53,6 +53,16 @@ export const CompactView = ({
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >
+              {/* Thumbnail */}
+              {product.image && (
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-8 h-8 object-cover rounded mr-3 shrink-0"
+                  loading="lazy"
+                />
+              )}
+
               {/* Left: Product Info */}
               <div className="flex-1 min-w-0 pr-4">
                 <div className="flex items-baseline gap-2">

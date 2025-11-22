@@ -6,6 +6,7 @@
  */
 
 import { Product, Order, Customer, PriceUpdate, ShoppingList } from '@/types/product';
+import { getProductImageUrl } from './productImages';
 
 const DB_KEYS = {
   PRODUCTS: 'superempire_products',
@@ -258,7 +259,12 @@ export class SuperEmpireDB {
 export const initializeProducts = (products: Product[]) => {
   const existing = SuperEmpireDB.getAllProducts();
   if (existing.length === 0) {
-    SuperEmpireDB.saveProducts(products);
+    // Add images to products that don't have them
+    const productsWithImages = products.map(product => ({
+      ...product,
+      image: product.image || getProductImageUrl(product.subcategory, product.category),
+    }));
+    SuperEmpireDB.saveProducts(productsWithImages);
   }
 };
 

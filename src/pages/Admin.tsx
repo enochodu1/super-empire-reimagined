@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Lock, DollarSign, Package, FileSpreadsheet, Eye, EyeOff, Download, Upload, Save } from 'lucide-react';
+import { Lock, DollarSign, Package, FileSpreadsheet, Eye, EyeOff, Download, Upload, Save, AlertTriangle, TrendingUp, TrendingDown, Minus, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -23,6 +23,8 @@ const Admin = () => {
   const [editedPrices, setEditedPrices] = useState<Record<string, number>>({});
   const [orders, setOrders] = useState<Order[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [editedStockQuantities, setEditedStockQuantities] = useState<Record<string, number>>({});
+  const [editedStockStatuses, setEditedStockStatuses] = useState<Record<string, Product['stockStatus']>>({});
 
   // Load products and orders from database
   useEffect(() => {
@@ -69,7 +71,7 @@ const Admin = () => {
 
   const handleExportCSV = () => {
     const csv = [
-      ['SKU', 'Product Name', 'Category', 'Pack Size', 'Unit', 'Current Price'].join(','),
+      ['SKU', 'Product Name', 'Category', 'Pack Size', 'Unit', 'Current Price', 'Stock Quantity', 'Stock Status'].join(','),
       ...products.map(p => [
         p.id,
         `"${p.name}"`,
@@ -77,6 +79,8 @@ const Admin = () => {
         `"${p.packSize}"`,
         p.unit,
         p.price,
+        p.stockQuantity || 0,
+        p.stockStatus || 'in-stock',
       ].join(','))
     ].join('\n');
 
@@ -88,6 +92,66 @@ const Admin = () => {
     a.click();
     toast.success('Product list exported successfully');
   };
+
+  const handleStockQuantityChange = (productId: string, change: number) => {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const currentQuantity = editedStockQuantities[productId] ?? product.stockQuantity ?? 0;
+    const newQuantity = Math.max(0, currentQuantity + change);
+
+    setEditedStockQuantities(prev => ({ ...prev, [productId]: newQuantity }));
+
+    // Auto-update stock status based on quantity
+    let newStatus: Product['stockStatus'] = 'in-stock';
+    if (newQuantity === 0) {
+      newStatus = 'out-of-stock';
+    } else if (newQuantity < 20) {
+      newStatus = 'low-stock';
+    }
+    setEditedStockStatuses(prev => ({ ...prev, [productId]: newStatus }));
+  };
+
+  const handleSaveInventory = () => {
+    let updatedCount = 0;
+
+    Object.entries(editedStockQuantities).forEach(([productId, quantity]) => {
+      const status = editedStockStatuses[productId];
+      SuperEmpireDB.updateProduct(productId, {
+        stockQuantity: quantity,
+        stockStatus: status,
+      });
+      updatedCount++;
+    });
+
+    // Reload products
+    const loadedProducts = SuperEmpireDB.getAllProducts();
+    setProducts(loadedProducts);
+
+    toast.success(`Updated inventory for ${updatedCount} products`, {
+      description: 'Stock levels have been updated successfully',
+    });
+
+    setEditedStockQuantities({});
+    setEditedStockStatuses({});
+  };
+
+  const getStockBadgeVariant = (status?: Product['stockStatus']) => {
+    switch (status) {
+      case 'in-stock':
+        return 'default';
+      case 'low-stock':
+        return 'secondary';
+      case 'out-of-stock':
+        return 'destructive';
+      default:
+        return 'outline';
+    }
+  };
+
+  const lowStockProducts = useMemo(() => {
+    return products.filter(p => p.stockStatus === 'low-stock' || p.stockStatus === 'out-of-stock');
+  }, [products]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -268,38 +332,219 @@ const Admin = () => {
             </Card>
           </TabsContent>
 
-          {/* Products Overview Tab */}
+          {/* Inventory Management Tab */}
           <TabsContent value="products" className="space-y-6">
-            <div className="grid md:grid-cols-3 gap-6">
+            {/* Inventory Summary Cards */}
+            <div className="grid md:grid-cols-4 gap-6">
               <Card>
-                <CardHeader>
-                  <CardTitle>Total Products</CardTitle>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-medium">Total Products</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-4xl font-bold">{allProducts.length}</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Produce Items</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-4xl font-bold">
-                    {allProducts.filter(p => p.category === 'produce').length}
+                  <p className="text-3xl font-bold">{products.length}</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {products.filter(p => p.category === 'produce').length} produce • {products.filter(p => p.category === 'tortilla').length} tortilla
                   </p>
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader>
-                  <CardTitle>Tortilla Items</CardTitle>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-medium flex items-center gap-2">
+                    <TrendingUp className="h-4 w-4 text-green-600" />
+                    In Stock
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-4xl font-bold">
-                    {allProducts.filter(p => p.category === 'tortilla').length}
+                  <p className="text-3xl font-bold text-green-600">
+                    {products.filter(p => p.stockStatus === 'in-stock').length}
                   </p>
+                  <p className="text-xs text-muted-foreground mt-1">Available for sale</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-medium flex items-center gap-2">
+                    <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                    Low Stock
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-bold text-yellow-600">
+                    {products.filter(p => p.stockStatus === 'low-stock').length}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">Needs restock soon</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm font-medium flex items-center gap-2">
+                    <TrendingDown className="h-4 w-4 text-red-600" />
+                    Out of Stock
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-bold text-red-600">
+                    {products.filter(p => p.stockStatus === 'out-of-stock').length}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">Requires immediate attention</p>
                 </CardContent>
               </Card>
             </div>
+
+            {/* Low Stock Alert */}
+            {lowStockProducts.length > 0 && (
+              <Card className="border-yellow-200 bg-yellow-50 dark:bg-yellow-900/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-yellow-800 dark:text-yellow-400">
+                    <AlertTriangle className="h-5 w-5" />
+                    {lowStockProducts.length} Items Need Attention
+                  </CardTitle>
+                  <CardDescription>
+                    These products are low or out of stock
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {lowStockProducts.slice(0, 10).map(p => (
+                      <Badge key={p.id} variant={getStockBadgeVariant(p.stockStatus)}>
+                        {p.name} ({p.stockQuantity || 0})
+                      </Badge>
+                    ))}
+                    {lowStockProducts.length > 10 && (
+                      <Badge variant="outline">+{lowStockProducts.length - 10} more</Badge>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Inventory Management Table */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Inventory Management</CardTitle>
+                <CardDescription>
+                  Adjust stock levels and monitor inventory status
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-4">
+                  <Input
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="flex-1"
+                  />
+                  {Object.keys(editedStockQuantities).length > 0 && (
+                    <Button onClick={handleSaveInventory} className="bg-green-600">
+                      <Save className="h-4 w-4 mr-2" />
+                      Save Inventory ({Object.keys(editedStockQuantities).length})
+                    </Button>
+                  )}
+                </div>
+
+                <div className="border rounded-lg overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Product</TableHead>
+                        <TableHead>Category</TableHead>
+                        <TableHead>Pack Size</TableHead>
+                        <TableHead>Stock Status</TableHead>
+                        <TableHead>Current Stock</TableHead>
+                        <TableHead>Adjust Quantity</TableHead>
+                        <TableHead className="text-right">Price</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredProducts.slice(0, 50).map((product) => {
+                        const currentStock = editedStockQuantities[product.id] ?? product.stockQuantity ?? 0;
+                        const currentStatus = editedStockStatuses[product.id] ?? product.stockStatus ?? 'in-stock';
+                        const hasChanges = editedStockQuantities[product.id] !== undefined;
+
+                        return (
+                          <TableRow
+                            key={product.id}
+                            className={hasChanges ? 'bg-green-50 dark:bg-green-900/20' : ''}
+                          >
+                            <TableCell>
+                              <div>
+                                <p className="font-medium">{product.name}</p>
+                                <p className="text-xs text-muted-foreground">{product.subcategory}</p>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant="outline">{product.category}</Badge>
+                            </TableCell>
+                            <TableCell className="text-sm text-gray-600">
+                              {product.packSize}
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant={getStockBadgeVariant(currentStatus)}>
+                                {currentStatus?.replace('-', ' ')}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <span className={`font-semibold ${
+                                currentStock === 0 ? 'text-red-600' :
+                                currentStock < 20 ? 'text-yellow-600' :
+                                'text-green-600'
+                              }`}>
+                                {currentStock} units
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-2">
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  onClick={() => handleStockQuantityChange(product.id, -10)}
+                                  className="h-8 w-8"
+                                >
+                                  <Minus className="h-3 w-3" />
+                                </Button>
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  onClick={() => handleStockQuantityChange(product.id, -1)}
+                                  className="h-8 w-8"
+                                >
+                                  -1
+                                </Button>
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  onClick={() => handleStockQuantityChange(product.id, 1)}
+                                  className="h-8 w-8"
+                                >
+                                  +1
+                                </Button>
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  onClick={() => handleStockQuantityChange(product.id, 10)}
+                                  className="h-8 w-8"
+                                >
+                                  <Plus className="h-3 w-3" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-right font-semibold">
+                              {formatPrice(product.price)}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
+
+                {filteredProducts.length > 50 && (
+                  <p className="text-sm text-gray-600 text-center">
+                    Showing 50 of {filteredProducts.length} products. Use search to find specific items.
+                  </p>
+                )}
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Orders Tab */}

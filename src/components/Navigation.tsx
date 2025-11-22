@@ -1,15 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, ShoppingCart } from "lucide-react";
+import { Menu, ShoppingCart, User, LogOut, Package } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { getCartCount } = useCart();
+  const { user, profile, signOut } = useAuth();
   const navigate = useNavigate();
   const cartCount = getCartCount();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
@@ -39,6 +55,7 @@ export const Navigation = () => {
             <a href="/#about" className="text-foreground hover:text-primary transition-colors font-medium">
               About
             </a>
+            <ThemeToggle />
             <Button
               variant="outline"
               size="lg"
@@ -53,9 +70,37 @@ export const Navigation = () => {
                 </Badge>
               )}
             </Button>
-            <Button variant="hero" size="lg" onClick={() => navigate('/products')}>
-              Order Now
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="lg">
+                    <User className="h-5 w-5 mr-2" />
+                    {profile?.full_name || 'Account'}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate('/profile')}>
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/profile?tab=orders')}>
+                    <Package className="mr-2 h-4 w-4" />
+                    <span>Orders</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sign out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button variant="hero" size="lg" onClick={() => navigate('/login')}>
+                Sign In
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -99,6 +144,10 @@ export const Navigation = () => {
             >
               About
             </a>
+            <div className="flex items-center justify-between py-2">
+              <span className="text-foreground font-medium">Theme</span>
+              <ThemeToggle />
+            </div>
             <Button
               variant="outline"
               size="lg"
@@ -116,17 +165,46 @@ export const Navigation = () => {
                 </Badge>
               )}
             </Button>
-            <Button
-              variant="hero"
-              size="lg"
-              className="w-full"
-              onClick={() => {
-                navigate('/products');
-                setIsOpen(false);
-              }}
-            >
-              Order Now
-            </Button>
+            {user ? (
+              <>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/profile');
+                    setIsOpen(false);
+                  }}
+                >
+                  <User className="h-5 w-5 mr-2" />
+                  My Account
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    handleSignOut();
+                    setIsOpen(false);
+                  }}
+                >
+                  <LogOut className="h-5 w-5 mr-2" />
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="hero"
+                size="lg"
+                className="w-full"
+                onClick={() => {
+                  navigate('/login');
+                  setIsOpen(false);
+                }}
+              >
+                Sign In
+              </Button>
+            )}
           </div>
         )}
       </div>

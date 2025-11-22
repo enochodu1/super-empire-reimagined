@@ -23,7 +23,19 @@ export const GridView = ({
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {products.map((product) => (
-        <Card key={product.id} className="hover:shadow-lg transition-all duration-200 flex flex-col">
+        <Card key={product.id} className="hover:shadow-lg transition-all duration-200 flex flex-col overflow-hidden">
+          {/* Product Image */}
+          {product.image && (
+            <div className="w-full h-48 overflow-hidden bg-gray-100 dark:bg-gray-800">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+          )}
+
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
