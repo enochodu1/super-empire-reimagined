@@ -6,6 +6,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { NotificationCenter } from "@/components/NotificationCenter";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -75,6 +76,7 @@ export const Navigation = () => {
                 </Badge>
               )}
             </Button>
+            {user && <NotificationCenter />}
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

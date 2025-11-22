@@ -19,6 +19,7 @@ import { sendOrderConfirmation } from '@/lib/emailService';
 import { downloadInvoice } from '@/lib/pdfService';
 import { createCheckoutSession, isStripeConfigured } from '@/lib/stripe';
 import { format } from 'date-fns';
+import { notificationService } from '@/services/notificationService';
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, getCartTotal, getCartCount } = useCart();
@@ -189,6 +190,46 @@ const Cart = () => {
       // Store last order for PDF generation
       setLastOrder(order);
       setShowInvoiceButton(true);
+
+      // Create in-app notification
+      if (user?.id) {
+        notificationService.createNotification({
+          userId: user.id,
+          type: 'order_update',
+          title: 'Order Confirmed!',
+          message: `Order ${order.orderNumber} has been submitted successfully. We'll send you updates as your order is processed.`,
+          read: false,
+          metadata: {
+            orderId: order.id,
+            orderNumber: order.orderNumber,
+            total: order.total,
+          },
+        });
+
+        // Generate and send better confirmation email using our template
+        const emailTemplate = notificationService.generateOrderConfirmationEmail({
+          orderNumber: order.orderNumber,
+          customerName: customerInfo.contactName || customerInfo.businessName,
+          customerEmail: customerInfo.email,
+          items: cart.map(item => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+          subtotal,
+          tax,
+          total,
+          deliveryDate: 'Within 2-3 business days',
+          deliveryAddress: `${customerInfo.address}, ${customerInfo.city}, ${customerInfo.state} ${customerInfo.zip}`,
+        });
+
+        // Send the new email template (in production)
+        await notificationService.sendNotification(
+          'email',
+          { email: customerInfo.email },
+          emailTemplate
+        );
+      }
 
       // Success message
       if (emailSent) {
