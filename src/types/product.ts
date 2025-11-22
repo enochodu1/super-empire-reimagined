@@ -25,6 +25,8 @@ export interface Product {
   sku?: string;
   minOrderQuantity?: number;
   priceTiers?: PriceTier[]; // Bulk pricing
+  rating?: number; // Product rating (1-5)
+  reviewCount?: number; // Number of reviews
 }
 
 export interface CartItem {

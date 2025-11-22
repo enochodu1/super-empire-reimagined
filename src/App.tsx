@@ -12,6 +12,7 @@ import { initEmailJS } from "@/lib/emailService";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { DemoBanner } from "@/components/DemoBanner";
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -66,6 +67,7 @@ const App = () => {
                 <Sonner />
                 <BrowserRouter basename={basename}>
                   <ScrollToTop />
+                  <DemoBanner />
                   <Suspense fallback={<LoadingSpinner />}>
                     <Routes>
                     <Route path="/" element={<Index />} />

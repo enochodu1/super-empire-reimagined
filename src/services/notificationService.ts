@@ -469,6 +469,83 @@ Grocery Empire
   }
 
   /**
+   * Seed demo notifications for showcase
+   */
+  seedDemoNotifications(userId: string): void {
+    // Check if user already has notifications
+    if (this.getNotifications(userId).length > 0) return;
+
+    const demoNotifications: Omit<Notification, 'id' | 'createdAt'>[] = [
+      {
+        userId,
+        type: 'price_alert',
+        title: 'Price Drop Alert: Avocados Mix #1',
+        message: 'Great news! Avocados Mix #1 (84 CT) dropped from $29.50 to $26.50 - Save $3.00 per case!',
+        read: false,
+        metadata: { productId: 'AVG001', oldPrice: 29.50, newPrice: 26.50 },
+      },
+      {
+        userId,
+        type: 'order_update',
+        title: 'Order #ORD-2024-15847 Delivered',
+        message: 'Your order has been successfully delivered. Thank you for your business!',
+        read: false,
+        metadata: { orderId: 'ORD-2024-15847', status: 'delivered' },
+      },
+      {
+        userId,
+        type: 'stock_alert',
+        title: 'Back in Stock: Organic Strawberries',
+        message: 'Good news! Organic Strawberries (12/1 LB) is back in stock and available to order.',
+        read: true,
+        metadata: { productId: 'STR005' },
+      },
+      {
+        userId,
+        type: 'new_product',
+        title: 'New Product: Dragon Fruit',
+        message: 'Check out our newest addition - Dragon Fruit now available for wholesale orders!',
+        read: true,
+        metadata: { productId: 'DRA001' },
+      },
+      {
+        userId,
+        type: 'standing_order',
+        title: 'Standing Order Reminder',
+        message: 'Your weekly standing order is scheduled to process tomorrow at 6:00 AM CST.',
+        read: false,
+        metadata: { standingOrderId: 'SO-123', scheduledDate: '2025-11-23' },
+      },
+      {
+        userId,
+        type: 'price_alert',
+        title: 'Price Alert: Tomatoes Roma',
+        message: 'Tomatoes Roma (25 LBS) price increased from $24.50 to $27.50',
+        read: true,
+        metadata: { productId: 'TOM001', oldPrice: 24.50, newPrice: 27.50 },
+      },
+      {
+        userId,
+        type: 'order_update',
+        title: 'Order #ORD-2024-15832 Out for Delivery',
+        message: 'Your order is out for delivery and will arrive between 8:00 AM - 12:00 PM today.',
+        read: true,
+        metadata: { orderId: 'ORD-2024-15832', status: 'out-for-delivery' },
+      },
+    ];
+
+    // Create notifications with staggered timestamps
+    demoNotifications.forEach((notification, index) => {
+      const notificationCopy = {
+        ...notification,
+        id: `demo-${userId}-${index}`,
+        createdAt: new Date(Date.now() - (index * 3600000) - (Math.random() * 3600000)), // Stagger by hours
+      };
+      this.notifications.unshift(notificationCopy);
+    });
+  }
+
+  /**
    * Send notification (would integrate with actual email/SMS service)
    */
   async sendNotification(
