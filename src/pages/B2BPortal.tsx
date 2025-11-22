@@ -43,7 +43,7 @@ const B2BPortal = () => {
               SE
             </div>
             <div>
-              <h1 className="text-3xl font-bold">Super Empire Produce</h1>
+              <h1 className="text-3xl font-bold">Grocery Empire</h1>
               <p className="text-green-100">B2B Distribution Platform</p>
             </div>
           </div>
@@ -155,7 +155,7 @@ const B2BPortal = () => {
           <div className="bg-white p-6 rounded-lg shadow">
             <h3 className="text-lg font-bold mb-4 text-green-700">🎯 What You're Seeing</h3>
             <ul className="space-y-2 text-sm text-gray-700">
-              <li>• <strong>Real Data:</strong> Extracted from actual Super Empire PDFs</li>
+              <li>• <strong>Real Data:</strong> Extracted from actual Grocery Empire PDFs</li>
               <li>• <strong>Dual Portals:</strong> Switch between Wholesale & Front Sales</li>
               <li>• <strong>Brand Filtering:</strong> Leal, Mission, Guerrero brands</li>
               <li>• <strong>Stock Numbers:</strong> Matching actual inventory codes</li>

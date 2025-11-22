@@ -46,7 +46,7 @@ export default function Login() {
           </div>
           <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
           <CardDescription className="text-center">
-            Sign in to your Super Empire Produce account
+            Sign in to your Grocery Empire account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -113,7 +113,7 @@ export default function Login() {
             {' | '}
             <button
               onClick={() => {
-                setEmail('admin@superempireproduce.com');
+                setEmail('admin@groceryempire.com');
                 setPassword('admin123');
               }}
               className="text-green-600 hover:underline dark:text-green-400"

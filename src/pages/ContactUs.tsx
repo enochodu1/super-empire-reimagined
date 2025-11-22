@@ -40,8 +40,8 @@ const ContactUs = () => {
       icon: Phone,
       title: "Phone",
       details: [
-        "Main Office: (555) 123-4567",
-        "Orders: (555) 123-4568",
+        "Main Office: (214) 555-7890",
+        "Orders: (214) 555-7891",
         "Toll Free: 1-800-PRODUCE"
       ]
     },
@@ -49,18 +49,18 @@ const ContactUs = () => {
       icon: Mail,
       title: "Email",
       details: [
-        "General: info@superempireproduce.com",
-        "Orders: orders@superempireproduce.com",
-        "Support: support@superempireproduce.com"
+        "General: info@groceryempire.com",
+        "Orders: orders@groceryempire.com",
+        "Support: support@groceryempire.com"
       ]
     },
     {
       icon: MapPin,
       title: "Address",
       details: [
-        "Super Empire Produce",
-        "1234 Distribution Boulevard",
-        "Commerce City, CA 90001"
+        "Grocery Empire",
+        "2500 Commerce Street, Suite 100",
+        "Dallas, TX 75201"
       ]
     },
     {
@@ -203,8 +203,8 @@ const ContactUs = () => {
                     <div className="text-center text-muted-foreground">
                       <MapPin className="w-12 h-12 mx-auto mb-2" />
                       <p>Interactive Map</p>
-                      <p className="text-sm">1234 Distribution Boulevard</p>
-                      <p className="text-sm">Commerce City, CA 90001</p>
+                      <p className="text-sm">2500 Commerce Street, Suite 100</p>
+                      <p className="text-sm">Dallas, TX 75201</p>
                     </div>
                   </div>
                 </CardContent>
@@ -219,19 +219,19 @@ const ContactUs = () => {
                   <ul className="space-y-2 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-brand-green mt-2 flex-shrink-0" />
-                      <span>Los Angeles County and surrounding areas</span>
+                      <span>Dallas County and surrounding areas</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-brand-green mt-2 flex-shrink-0" />
-                      <span>Orange County</span>
+                      <span>Fort Worth and Tarrant County</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-brand-green mt-2 flex-shrink-0" />
-                      <span>Inland Empire</span>
+                      <span>Plano, Frisco, and Collin County</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-brand-green mt-2 flex-shrink-0" />
-                      <span>Ventura County</span>
+                      <span>Arlington and Mid-Cities</span>
                     </li>
                   </ul>
                   <p className="text-sm text-muted-foreground mt-4">

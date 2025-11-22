@@ -16,7 +16,7 @@ export const SocialMediaFeed = () => {
             <Instagram className="w-5 h-5 text-pink-600" />
             <CardTitle>Instagram Feed</CardTitle>
           </div>
-          <CardDescription>@superempireproduce</CardDescription>
+          <CardDescription>@groceryempire</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-2">
@@ -35,7 +35,7 @@ export const SocialMediaFeed = () => {
             <Facebook className="w-5 h-5 text-blue-600" />
             <CardTitle>Facebook Updates</CardTitle>
           </div>
-          <CardDescription>Super Empire Produce</CardDescription>
+          <CardDescription>Grocery Empire</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">

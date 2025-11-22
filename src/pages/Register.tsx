@@ -73,7 +73,7 @@ export default function Register() {
           </div>
           <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
           <CardDescription className="text-center">
-            Join Super Empire Produce and start ordering fresh products
+            Join Grocery Empire and start ordering fresh products
           </CardDescription>
         </CardHeader>
         <CardContent>

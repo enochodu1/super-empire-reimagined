@@ -131,7 +131,7 @@ const Services = () => {
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">More Than Just Fresh Produce</h2>
           <p className="text-lg text-muted-foreground">
-            At Super Empire Produce, we're committed to being your complete wholesale produce partner.
+            At Grocery Empire, we're committed to being your complete wholesale produce partner.
             Our comprehensive suite of services is designed to make ordering easier, improve your
             operations, and help your business thrive.
           </p>

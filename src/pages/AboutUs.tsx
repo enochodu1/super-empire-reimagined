@@ -49,7 +49,7 @@ const AboutUs = () => {
           <h2 className="text-3xl font-bold mb-6">Our Story</h2>
           <div className="prose prose-lg max-w-none text-muted-foreground">
             <p className="mb-4">
-              Founded in 1999, Super Empire Produce has grown from a small family-owned distributor
+              Founded in 1999, Grocery Empire has grown from a small family-owned distributor
               to one of the region's most trusted wholesale produce suppliers. Our journey began with
               a simple mission: to deliver the freshest, highest-quality produce to restaurants,
               grocery stores, and institutions throughout the area.
@@ -124,7 +124,7 @@ const AboutUs = () => {
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">Why Choose Super Empire Produce?</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center">Why Choose Grocery Empire?</h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="flex gap-4">
                 <div className="flex-shrink-0 w-2 h-2 bg-brand-green rounded-full mt-2" />
@@ -191,7 +191,7 @@ const AboutUs = () => {
           <CardContent className="p-12 text-center">
             <h2 className="text-3xl font-bold mb-4">Ready to Partner With Us?</h2>
             <p className="text-lg mb-8 text-white/90 max-w-2xl mx-auto">
-              Join hundreds of satisfied customers who trust Super Empire Produce for their wholesale needs.
+              Join hundreds of satisfied customers who trust Grocery Empire for their wholesale needs.
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
               <a

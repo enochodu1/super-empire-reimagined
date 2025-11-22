@@ -53,7 +53,7 @@ export const Footer = () => {
                 <span className="text-white font-bold">SE</span>
               </div>
               <div>
-                <h3 className="font-bold text-lg">Super Empire</h3>
+                <h3 className="font-bold text-lg">Grocery Empire</h3>
                 <p className="text-sm text-primary-foreground/80">Produce</p>
               </div>
             </div>
@@ -125,7 +125,7 @@ export const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/80">
-          <p>&copy; {new Date().getFullYear()} Super Empire Produce. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Grocery Empire. All rights reserved.</p>
         </div>
       </div>
     </footer>

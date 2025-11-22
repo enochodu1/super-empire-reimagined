@@ -17,7 +17,7 @@ export const CTA = () => {
             Ready to Partner With Us?
           </h2>
           <p className="text-xl md:text-2xl mb-12 text-white/90 leading-relaxed">
-            Join hundreds of businesses across the Southern states that trust Super Empire Produce.
+            Join hundreds of businesses across the Southern states that trust Grocery Empire.
             Choose the ordering option that fits your needs.
           </p>
 

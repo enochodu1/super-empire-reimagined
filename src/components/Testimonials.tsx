@@ -8,7 +8,7 @@ export const Testimonials = () => {
       business: "Casa Grande Restaurant",
       location: "Oklahoma City, OK",
       rating: 5,
-      text: "Super Empire has transformed our kitchen operations. Fresh produce delivered on time, every time. Their quality is unmatched and prices are incredibly competitive.",
+      text: "Grocery Empire has transformed our kitchen operations. Fresh produce delivered on time, every time. Their quality is unmatched and prices are incredibly competitive.",
       image: "🍴",
     },
     {
@@ -16,7 +16,7 @@ export const Testimonials = () => {
       business: "Fresh Market Grocers",
       location: "Little Rock, AR",
       rating: 5,
-      text: "We've been partnering with Super Empire for 5 years. Their consistency and dedication to quality keeps our customers coming back. Highly recommend!",
+      text: "We've been partnering with Grocery Empire for 5 years. Their consistency and dedication to quality keeps our customers coming back. Highly recommend!",
       image: "🏪",
     },
     {
@@ -41,7 +41,7 @@ export const Testimonials = () => {
             Trusted by Leading Businesses
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            See what our partners have to say about their experience with Super Empire Produce
+            See what our partners have to say about their experience with Grocery Empire
           </p>
         </div>
 

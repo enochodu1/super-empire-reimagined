@@ -1,98 +1,99 @@
 /**
- * Super Empire Produce LLC - Real Company Information
+ * Grocery Empire - Demo Company Information
  *
- * This file contains verified company details from public records and OSINT research.
- * Source: USDOT records, business filings, and public price lists (11/17/25-11/22/25)
+ * This file contains demo company details for the wholesale produce marketplace platform.
+ * All contact information is fictional and for demonstration purposes only.
  */
 
 export const COMPANY_INFO = {
   // Legal Business Information
-  legalName: 'SUPER EMPIRE PRODUCE LLC',
-  dbaName: 'Super Empire Produce',
+  legalName: 'Grocery Empire LLC',
+  dbaName: 'Grocery Empire',
 
   // Contact Information
-  phone: '(469) 432-9313',
-  email: 'SCASTILLO@SUPEREMPIREPRODUCE.COM', // From price list header
-  website: 'https://www.superempireproduce.com',
+  phone: '(214) 555-7890',
+  email: 'info@groceryempire.com',
+  website: 'https://www.groceryempire.com',
 
-  // Physical Address (USDOT verified)
+  // Physical Address
   address: {
-    street: '2424 S Cesar Chavez Blvd',
+    street: '2500 Commerce Street, Suite 100',
     city: 'Dallas',
     state: 'TX',
-    zip: '75215',
-    formatted: '2424 S Cesar Chavez Blvd, Dallas, TX 75215',
+    zip: '75201',
+    formatted: '2500 Commerce Street, Suite 100, Dallas, TX 75201',
   },
 
-  // Contact Person (from price list)
+  // Contact Person
   contacts: {
     sales: {
-      name: 'Sindy Castillo',
-      phone: '(469) 493-0767',
-      email: 'SCASTILLO@SUPEREMPIREPRODUCE.COM',
+      name: 'Sarah Johnson',
+      phone: '(214) 555-7891',
+      email: 'orders@groceryempire.com',
     },
   },
 
   // Business Details
   business: {
-    usdotNumber: '4210131',
-    founded: '2024', // DOT authority started March 2024
+    founded: '1999',
     entityType: 'Limited Liability Company (LLC)',
     state: 'Texas',
+    experience: '25+ years in wholesale produce distribution',
   },
 
   // Service Area
   serviceArea: {
-    states: ['Texas', 'Oklahoma', 'Arkansas', 'Louisiana'],
-    stateAbbreviations: ['TX', 'OK', 'AR', 'LA'],
-    description: 'We deliver fresh produce and authentic tortillas to businesses across the South-Central United States.',
+    states: ['Texas'],
+    stateAbbreviations: ['TX'],
+    regions: ['Dallas County', 'Tarrant County', 'Collin County', 'Denton County'],
+    description: 'Serving the Dallas-Fort Worth metroplex with fresh produce delivery to restaurants, grocery stores, and institutions.',
   },
 
   // Operations
   operations: {
-    fleetSize: 5,
-    drivers: 7,
-    operationType: 'Private (Property) - Interstate',
-    cargoTypes: ['Fresh Produce', 'Commodities Dry Bulk'],
+    fleetSize: 12,
+    drivers: 15,
+    operationType: 'Refrigerated Fleet Delivery',
+    cargoTypes: ['Fresh Produce', 'Organic Products', 'Specialty Items'],
     deliveryDays: 'Monday - Saturday',
     orderingHours: '24/7 Online',
   },
 
   // Business Hours
   hours: {
-    office: 'Monday - Friday: 7:00 AM - 5:00 PM',
-    warehouse: 'Monday - Saturday: 6:00 AM - 4:00 PM',
-    deliveries: 'Monday - Saturday: 8:00 AM - 6:00 PM',
-    emergencyContact: '(469) 432-9313',
+    office: 'Monday - Friday: 5:00 AM - 6:00 PM CST',
+    warehouse: 'Monday - Saturday: 5:00 AM - 4:00 PM CST',
+    deliveries: 'Monday - Saturday: 6:00 AM - 6:00 PM CST',
+    emergencyContact: '(214) 555-7890',
   },
 
   // Social Proof
   description: {
-    short: 'Fresh wholesale produce and authentic tortillas delivered to your business.',
-    long: 'Super Empire Produce specializes in delivering the freshest fruits and vegetables to businesses across Texas, Oklahoma, Arkansas, and Louisiana. Since 2024, we\'ve been committed to providing quality produce with reliable delivery and competitive pricing.',
-    mission: 'To be the top choice for businesses seeking premium quality, environmentally conscious produce distribution with exceptional customer service.',
+    short: 'Premium wholesale produce delivered fresh to businesses across the Dallas-Fort Worth metroplex.',
+    long: 'Grocery Empire has been the trusted source for fresh, high-quality produce in the Dallas-Fort Worth area since 1999. We specialize in delivering premium fruits, vegetables, and specialty items to restaurants, grocery stores, caterers, and institutions throughout North Texas.',
+    mission: 'To be the leading wholesale produce distributor in North Texas, known for exceptional quality, reliable service, and innovative solutions that help our customers succeed.',
   },
 
   // Payment & Terms
   payment: {
     terms: 'Net 30 for approved accounts',
-    methods: ['Check', 'ACH', 'Wire Transfer'],
-    minimumOrder: 'No minimum for first-time customers',
+    methods: ['Check', 'ACH', 'Wire Transfer', 'Credit Card'],
+    minimumOrder: '$150 minimum for delivery',
     taxId: 'Available upon request',
   },
 
   // Certifications & Compliance
   compliance: {
     foodSafety: 'FDA Food Facility Registration',
-    transportation: 'USDOT #4210131',
-    insurance: 'Full liability and cargo coverage',
-    licenses: 'Texas Sales Tax Permit',
+    certifications: 'HACCP Certified, Food Safety Certified',
+    insurance: 'Full liability and cargo insurance coverage',
+    licenses: 'Texas Sales Tax Permit, Food Handler Certified',
   },
 
-  // Geographic Coordinates (for maps)
+  // Geographic Coordinates (for maps) - Dallas Commerce Street area
   coordinates: {
-    lat: 32.7506,
-    lng: -96.7901,
+    lat: 32.7767,
+    lng: -96.7970,
   },
 
   // Price List Information

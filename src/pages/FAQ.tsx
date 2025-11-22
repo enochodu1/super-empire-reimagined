@@ -42,11 +42,11 @@ const FAQ = () => {
         },
         {
           q: "What if I need to change or cancel my order?",
-          a: "Orders can be modified or cancelled up until 3:00 PM the day before delivery. Contact customer service at (555) 123-4568 or use the 'Modify Order' feature in your online account."
+          a: "Orders can be modified or cancelled up until 3:00 PM the day before delivery. Contact customer service at (214) 555-7891 or use the 'Modify Order' feature in your online account."
         },
         {
           q: "Do you deliver to my area?",
-          a: "We serve Los Angeles County, Orange County, Inland Empire, and Ventura County. Special arrangements can be made for deliveries outside our standard service area. Contact us to discuss your specific location."
+          a: "We serve Dallas County, Fort Worth and Tarrant County, Plano/Frisco and Collin County, and Arlington and the Mid-Cities. Special arrangements can be made for deliveries outside our standard service area. Contact us to discuss your specific location."
         }
       ]
     },
@@ -268,14 +268,14 @@ const FAQ = () => {
                   Contact Us
                 </a>
                 <a
-                  href="tel:5551234567"
+                  href="tel:2145557890"
                   className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-transparent border-2 border-brand-green text-brand-green font-semibold hover:bg-brand-green/10 transition-colors"
                 >
-                  Call (555) 123-4567
+                  Call (214) 555-7890
                 </a>
               </div>
               <p className="text-sm text-muted-foreground mt-6">
-                Customer Service Hours: Monday-Friday, 6:00 AM - 6:00 PM PST
+                Customer Service Hours: Monday-Friday, 6:00 AM - 6:00 PM CST
               </p>
             </CardContent>
           </Card>

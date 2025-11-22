@@ -1,6 +1,6 @@
 import { Product } from '@/types/product';
 
-// Super Empire Produce - Tortilla & Chips Products
+// Grocery Empire - Tortilla & Chips Products
 
 export const tortillaProducts: Product[] = [
   // TORTILLA/CHIPS (LEAL)

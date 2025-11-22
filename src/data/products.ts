@@ -1,6 +1,6 @@
 import { Product } from '@/types/product';
 
-// Super Empire Produce - Product Catalog
+// Grocery Empire - Product Catalog
 // Data extracted from price lists dated 11/17/25 - 11/22/25
 
 export const produceProducts: Product[] = [

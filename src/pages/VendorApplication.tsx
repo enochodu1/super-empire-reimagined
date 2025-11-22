@@ -95,7 +95,7 @@ const VendorApplication = () => {
             </div>
             <CardTitle className="text-2xl">Application Submitted!</CardTitle>
             <CardDescription>
-              Thank you for your interest in becoming a Super Empire Produce vendor
+              Thank you for your interest in becoming a Grocery Empire vendor
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -141,7 +141,7 @@ const VendorApplication = () => {
             <span>Back to Main Site</span>
           </Link>
           <h1 className="text-3xl font-bold">Vendor Application</h1>
-          <p className="text-green-100">Apply to become a Super Empire Produce supplier</p>
+          <p className="text-green-100">Apply to become a Grocery Empire supplier</p>
         </div>
       </header>
 

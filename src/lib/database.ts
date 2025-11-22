@@ -1,5 +1,5 @@
 /**
- * Local Database Management for Super Empire Produce
+ * Local Database Management for Grocery Empire
  *
  * This module provides a simple localStorage-based database for products, orders, and customers.
  * Can be easily upgraded to IndexedDB or a backend API later.

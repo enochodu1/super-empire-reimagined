@@ -216,7 +216,7 @@ const BuyerRegistration = () => {
             <span>Back to Main Site</span>
           </Link>
           <h1 className="text-3xl font-bold">Buyer Registration</h1>
-          <p className="text-blue-100">Create your business account with Super Empire Produce</p>
+          <p className="text-blue-100">Create your business account with Grocery Empire</p>
         </div>
       </header>
 
@@ -675,7 +675,7 @@ const BuyerRegistration = () => {
                 <h4 className="font-semibold mb-2">Terms & Conditions</h4>
                 <p className="text-sm text-muted-foreground">
                   By submitting this application, you agree to our terms of service and authorize
-                  Super Empire Produce to verify the information provided and perform credit checks
+                  Grocery Empire to verify the information provided and perform credit checks
                   if applicable. All applications are subject to approval.
                 </p>
               </div>

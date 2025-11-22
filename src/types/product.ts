@@ -1,4 +1,4 @@
-// Product type definitions for Super Empire Produce
+// Product type definitions for Grocery Empire
 
 export type ProductCategory = 'produce' | 'tortilla' | 'dairy';
 

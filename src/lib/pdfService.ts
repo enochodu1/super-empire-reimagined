@@ -31,12 +31,12 @@ export const generateInvoicePDF = (data: InvoiceData): jsPDF => {
   // Company Header
   doc.setFontSize(24);
   doc.setFont('helvetica', 'bold');
-  doc.text('SUPER EMPIRE PRODUCE', 105, 20, { align: 'center' });
+  doc.text('GROCERY EMPIRE', 105, 20, { align: 'center' });
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text('2424 S Cesar Chavez Blvd, Dallas, TX 75215', 105, 28, { align: 'center' });
-  doc.text('Phone: (469) 432-9313 | USDOT #4210131', 105, 33, { align: 'center' });
+  doc.text('2500 Commerce Street, Suite 100, Dallas, TX 75201', 105, 28, { align: 'center' });
+  doc.text('Phone: (214) 555-7890', 105, 33, { align: 'center' });
 
   // Invoice Title
   doc.setFontSize(16);
@@ -137,7 +137,7 @@ export const generateInvoicePDF = (data: InvoiceData): jsPDF => {
   doc.setFontSize(8);
   doc.setFont('helvetica', 'italic');
   doc.text('Thank you for your business!', 105, footerY, { align: 'center' });
-  doc.text('Questions? Contact us at (469) 432-9313 or info@superempireproduce.com', 105, footerY + 5, { align: 'center' });
+  doc.text('Questions? Contact us at (469) 432-9313 or info@groceryempire.com', 105, footerY + 5, { align: 'center' });
 
   return doc;
 };
@@ -160,11 +160,11 @@ export const generatePackingSlipPDF = (data: InvoiceData): jsPDF => {
   // Company Header
   doc.setFontSize(24);
   doc.setFont('helvetica', 'bold');
-  doc.text('SUPER EMPIRE PRODUCE', 105, 20, { align: 'center' });
+  doc.text('GROCERY EMPIRE', 105, 20, { align: 'center' });
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text('2424 S Cesar Chavez Blvd, Dallas, TX 75215', 105, 28, { align: 'center' });
+  doc.text('2500 Commerce Street, Suite 100, Dallas, TX 75201', 105, 28, { align: 'center' });
 
   // Packing Slip Title
   doc.setFontSize(16);

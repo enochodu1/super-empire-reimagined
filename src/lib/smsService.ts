@@ -35,7 +35,7 @@ export const sendOrderConfirmationSMS = async (
   orderId: string,
   total: string
 ): Promise<boolean> => {
-  const message = `Super Empire Produce: Your order #${orderId} ($${total}) has been received! We'll notify you when it's ready for delivery. Questions? Call (469) 432-9313`;
+  const message = `Grocery Empire: Your order #${orderId} ($${total}) has been received! We'll notify you when it's ready for delivery. Questions? Call (469) 432-9313`;
 
   return await sendSMS({
     to: phone,
@@ -48,7 +48,7 @@ export const sendDeliveryNotificationSMS = async (
   orderId: string,
   estimatedTime: string
 ): Promise<boolean> => {
-  const message = `Super Empire Produce: Your order #${orderId} is out for delivery! Estimated arrival: ${estimatedTime}. Track at superempireproduce.com/orders`;
+  const message = `Grocery Empire: Your order #${orderId} is out for delivery! Estimated arrival: ${estimatedTime}. Track at groceryempire.com/orders`;
 
   return await sendSMS({
     to: phone,
@@ -60,7 +60,7 @@ export const sendDeliveryCompleteSMS = async (
   phone: string,
   orderId: string
 ): Promise<boolean> => {
-  const message = `Super Empire Produce: Your order #${orderId} has been delivered! Thank you for your business. Rate your experience at superempireproduce.com/feedback`;
+  const message = `Grocery Empire: Your order #${orderId} has been delivered! Thank you for your business. Rate your experience at groceryempire.com/feedback`;
 
   return await sendSMS({
     to: phone,

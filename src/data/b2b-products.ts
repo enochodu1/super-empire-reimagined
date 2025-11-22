@@ -1,5 +1,5 @@
 /**
- * Super Empire Product Database
+ * Grocery Empire Product Database
  * Extracted from actual price list PDF (Week: 10/10/25-10/19/25)
  */
 

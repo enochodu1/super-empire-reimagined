@@ -1,8 +1,8 @@
-# Super Empire Produce - Brand Color Palette
+# Grocery Empire - Brand Color Palette
 
-## Extracted from Official Logo
+## Demo Brand Guidelines
 
-Based on the company logo at: https://www.superempireproduce.com/
+Modern wholesale produce marketplace branding
 
 ### Primary Colors (from logo)
 
