@@ -27,6 +27,12 @@ import RFPManagement from "./pages/RFPManagement";
 import RewardsProgram from "./pages/RewardsProgram";
 import SeasonalCalendar from "./pages/SeasonalCalendar";
 import RecipeBlog from "./pages/RecipeBlog";
+import OrderHistory from "./pages/OrderHistory";
+import NotificationPreferences from "./pages/NotificationPreferences";
+import DocumentManagement from "./pages/DocumentManagement";
+import StandingOrders from "./pages/StandingOrders";
+import MultiLocationManagement from "./pages/MultiLocationManagement";
+import AdvancedFeatures from "./pages/AdvancedFeatures";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -72,6 +78,12 @@ const App = () => {
                   <Route path="/rewards" element={<ProtectedRoute><RewardsProgram /></ProtectedRoute>} />
                   <Route path="/seasonal-calendar" element={<SeasonalCalendar />} />
                   <Route path="/recipes" element={<RecipeBlog />} />
+                  <Route path="/order-history" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
+                  <Route path="/notifications" element={<ProtectedRoute><NotificationPreferences /></ProtectedRoute>} />
+                  <Route path="/documents" element={<ProtectedRoute><DocumentManagement /></ProtectedRoute>} />
+                  <Route path="/standing-orders" element={<ProtectedRoute><StandingOrders /></ProtectedRoute>} />
+                  <Route path="/multi-location" element={<ProtectedRoute><MultiLocationManagement /></ProtectedRoute>} />
+                  <Route path="/advanced-features" element={<ProtectedRoute><AdvancedFeatures /></ProtectedRoute>} />
 
                   {/* Auth & Admin */}
                   <Route path="/admin" element={<ProtectedRoute requireAdmin><Admin /></ProtectedRoute>} />
