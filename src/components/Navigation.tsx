@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, ShoppingCart, User, LogOut, Package, Building2, BarChart3, Warehouse } from "lucide-react";
+import { Menu, ShoppingCart, User, LogOut, Package, Building2, BarChart3, Warehouse, Bell, History, FileText, RotateCcw, MapPin, Zap } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -107,6 +107,34 @@ export const Navigation = () => {
                   <DropdownMenuItem onClick={() => navigate('/inventory')}>
                     <Warehouse className="mr-2 h-4 w-4" />
                     <span>Inventory Management</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuLabel>Quick Features</DropdownMenuLabel>
+                  <DropdownMenuItem onClick={() => navigate('/order-history')}>
+                    <History className="mr-2 h-4 w-4" />
+                    <span>Order History & Quick Reorder</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/notifications')}>
+                    <Bell className="mr-2 h-4 w-4" />
+                    <span>Notifications & Price Alerts</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/standing-orders')}>
+                    <RotateCcw className="mr-2 h-4 w-4" />
+                    <span>Standing Orders</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuLabel>Business Tools</DropdownMenuLabel>
+                  <DropdownMenuItem onClick={() => navigate('/documents')}>
+                    <FileText className="mr-2 h-4 w-4" />
+                    <span>Document Management</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/multi-location')}>
+                    <MapPin className="mr-2 h-4 w-4" />
+                    <span>Multi-Location Management</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/advanced-features')}>
+                    <Zap className="mr-2 h-4 w-4" />
+                    <span>Advanced Features</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut}>
@@ -242,6 +270,80 @@ export const Navigation = () => {
                 >
                   <Warehouse className="h-5 w-5 mr-2" />
                   Inventory
+                </Button>
+                <div className="text-xs font-semibold text-muted-foreground pt-2">QUICK FEATURES</div>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/order-history');
+                    setIsOpen(false);
+                  }}
+                >
+                  <History className="h-5 w-5 mr-2" />
+                  Order History
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/notifications');
+                    setIsOpen(false);
+                  }}
+                >
+                  <Bell className="h-5 w-5 mr-2" />
+                  Notifications
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/standing-orders');
+                    setIsOpen(false);
+                  }}
+                >
+                  <RotateCcw className="h-5 w-5 mr-2" />
+                  Standing Orders
+                </Button>
+                <div className="text-xs font-semibold text-muted-foreground pt-2">BUSINESS TOOLS</div>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/documents');
+                    setIsOpen(false);
+                  }}
+                >
+                  <FileText className="h-5 w-5 mr-2" />
+                  Documents
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/multi-location');
+                    setIsOpen(false);
+                  }}
+                >
+                  <MapPin className="h-5 w-5 mr-2" />
+                  Multi-Location
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/advanced-features');
+                    setIsOpen(false);
+                  }}
+                >
+                  <Zap className="h-5 w-5 mr-2" />
+                  Advanced Features
                 </Button>
                 <Button
                   variant="destructive"
