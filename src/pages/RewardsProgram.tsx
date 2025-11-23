@@ -326,7 +326,7 @@ const RewardsProgram = () => {
                   <ShoppingCart className="w-6 h-6 text-blue-600" />
                 </div>
                 <h3 className="font-semibold mb-2">1. Shop</h3>
-                <p className="text-sm text-muted-foreground">Make purchases at Super Empire Produce</p>
+                <p className="text-sm text-muted-foreground">Make purchases at Grocery Empire</p>
               </div>
 
               <div className="text-center">

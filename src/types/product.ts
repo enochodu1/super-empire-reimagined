@@ -1,4 +1,4 @@
-// Product type definitions for Super Empire Produce
+// Product type definitions for Grocery Empire
 
 export type ProductCategory = 'produce' | 'tortilla' | 'dairy';
 
@@ -69,6 +69,8 @@ export interface Product {
   origin?: string; // "USA", "Mexico", "California", etc.
   seasonality?: 'year-round' | 'seasonal' | 'limited';
   preparationLevel?: 'whole' | 'pre-cut' | 'ready-to-use' | 'prepared';
+  rating?: number; // Product rating (1-5)
+  reviewCount?: number; // Number of reviews
 }
 
 export interface CartItem {

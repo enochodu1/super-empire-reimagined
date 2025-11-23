@@ -1,5 +1,5 @@
 /**
- * Local Database Management for Super Empire Produce
+ * Local Database Management for Grocery Empire
  *
  * This module provides a simple localStorage-based database for products, orders, and customers.
  * Can be easily upgraded to IndexedDB or a backend API later.
@@ -7,6 +7,7 @@
 
 import { Product, Order, Customer, PriceUpdate, ShoppingList } from '@/types/product';
 import { getProductImageUrl } from './productImages';
+import { enhanceProductsWithRatings } from '@/utils/demoDataEnhancer';
 
 const DB_KEYS = {
   PRODUCTS: 'superempire_products',
@@ -22,7 +23,20 @@ export class SuperEmpireDB {
   // Products
   static getAllProducts(): Product[] {
     const data = localStorage.getItem(DB_KEYS.PRODUCTS);
-    return data ? JSON.parse(data) : [];
+    const products = data ? JSON.parse(data) : [];
+
+    // Enhance products with demo ratings for showcase
+    // Use sessionStorage to keep ratings consistent during browsing session
+    const ratedKey = 'superempire_products_with_ratings';
+    const sessionData = sessionStorage.getItem(ratedKey);
+
+    if (sessionData) {
+      return JSON.parse(sessionData);
+    }
+
+    const enhanced = enhanceProductsWithRatings(products);
+    sessionStorage.setItem(ratedKey, JSON.stringify(enhanced));
+    return enhanced;
   }
 
   static getProduct(id: string): Product | null {

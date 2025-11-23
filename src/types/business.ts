@@ -1,5 +1,5 @@
 /**
- * Super Empire B2B Platform - Business Types
+ * Grocery Empire B2B Platform - Business Types
  * Based on OSINT research from actual invoices and price lists
  */
 

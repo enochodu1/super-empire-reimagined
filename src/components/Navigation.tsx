@@ -37,7 +37,7 @@ export const Navigation = () => {
               <span className="text-primary-foreground font-bold text-xl">SE</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">Super Empire</h1>
+              <h1 className="text-xl font-bold text-foreground">Grocery Empire</h1>
               <p className="text-xs text-muted-foreground">Produce</p>
             </div>
           </Link>

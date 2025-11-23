@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ShoppingCart, TrendingDown } from 'lucide-react';
+import { ProductRating } from '@/components/ProductRating';
 
 interface GridViewProps {
   products: Product[];
@@ -43,6 +44,15 @@ export const GridView = ({
                 <CardDescription className="text-sm truncate">
                   {product.subcategory}
                 </CardDescription>
+                {product.rating && (
+                  <div className="mt-1">
+                    <ProductRating
+                      rating={product.rating}
+                      reviewCount={product.reviewCount}
+                      size="sm"
+                    />
+                  </div>
+                )}
               </div>
               <Badge variant="secondary" className="shrink-0 text-xs">
                 {product.category}

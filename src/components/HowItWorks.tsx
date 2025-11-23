@@ -42,7 +42,7 @@ export const HowItWorks = () => {
             How It Works
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Getting started with Super Empire is simple. Follow these four easy steps.
+            Getting started with Grocery Empire is simple. Follow these four easy steps.
           </p>
         </div>
 

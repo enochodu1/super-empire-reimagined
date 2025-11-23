@@ -137,7 +137,7 @@ class NotificationService {
           </div>
 
           <div class="footer">
-            <p>Super Empire Produce - Fresh Wholesale Produce Delivered</p>
+            <p>Grocery Empire - Fresh Wholesale Produce Delivered</p>
             <p>This is an automated notification. Please do not reply to this email.</p>
           </div>
         </div>
@@ -163,7 +163,7 @@ Order now: ${data.productUrl}
 This is a great opportunity to stock up! Prices can change quickly, so act fast.
 
 ---
-Super Empire Produce
+Grocery Empire
 Manage alerts: /notifications
     `;
 
@@ -281,7 +281,7 @@ Manage alerts: /notifications
           </div>
 
           <div class="footer">
-            <p><strong>Super Empire Produce</strong></p>
+            <p><strong>Grocery Empire</strong></p>
             <p>Fresh Wholesale Produce Delivered</p>
             <p>Questions? Email us at support@superempire.com</p>
           </div>
@@ -295,7 +295,7 @@ Manage alerts: /notifications
     ).join('\n');
 
     const text = `
-Order Confirmation - Super Empire Produce
+Order Confirmation - Grocery Empire
 
 Hi ${data.customerName},
 
@@ -322,12 +322,12 @@ WHAT'S NEXT:
 Need help? Contact our support team at support@superempire.com
 
 ---
-Super Empire Produce
+Grocery Empire
 Fresh Wholesale Produce Delivered
     `;
 
     return {
-      subject: `Order Confirmation #${data.orderNumber} - Super Empire Produce`,
+      subject: `Order Confirmation #${data.orderNumber} - Grocery Empire`,
       html,
       text,
     };
@@ -390,7 +390,7 @@ ${data.inStock} units available
 Order now: ${data.productUrl}
 
 ---
-Super Empire Produce
+Grocery Empire
     `;
 
     return {
@@ -466,6 +466,83 @@ Super Empire Produce
    */
   getUnreadCount(userId: string): number {
     return this.notifications.filter(n => n.userId === userId && !n.read).length;
+  }
+
+  /**
+   * Seed demo notifications for showcase
+   */
+  seedDemoNotifications(userId: string): void {
+    // Check if user already has notifications
+    if (this.getNotifications(userId).length > 0) return;
+
+    const demoNotifications: Omit<Notification, 'id' | 'createdAt'>[] = [
+      {
+        userId,
+        type: 'price_alert',
+        title: 'Price Drop Alert: Avocados Mix #1',
+        message: 'Great news! Avocados Mix #1 (84 CT) dropped from $29.50 to $26.50 - Save $3.00 per case!',
+        read: false,
+        metadata: { productId: 'AVG001', oldPrice: 29.50, newPrice: 26.50 },
+      },
+      {
+        userId,
+        type: 'order_update',
+        title: 'Order #ORD-2024-15847 Delivered',
+        message: 'Your order has been successfully delivered. Thank you for your business!',
+        read: false,
+        metadata: { orderId: 'ORD-2024-15847', status: 'delivered' },
+      },
+      {
+        userId,
+        type: 'stock_alert',
+        title: 'Back in Stock: Organic Strawberries',
+        message: 'Good news! Organic Strawberries (12/1 LB) is back in stock and available to order.',
+        read: true,
+        metadata: { productId: 'STR005' },
+      },
+      {
+        userId,
+        type: 'new_product',
+        title: 'New Product: Dragon Fruit',
+        message: 'Check out our newest addition - Dragon Fruit now available for wholesale orders!',
+        read: true,
+        metadata: { productId: 'DRA001' },
+      },
+      {
+        userId,
+        type: 'standing_order',
+        title: 'Standing Order Reminder',
+        message: 'Your weekly standing order is scheduled to process tomorrow at 6:00 AM CST.',
+        read: false,
+        metadata: { standingOrderId: 'SO-123', scheduledDate: '2025-11-23' },
+      },
+      {
+        userId,
+        type: 'price_alert',
+        title: 'Price Alert: Tomatoes Roma',
+        message: 'Tomatoes Roma (25 LBS) price increased from $24.50 to $27.50',
+        read: true,
+        metadata: { productId: 'TOM001', oldPrice: 24.50, newPrice: 27.50 },
+      },
+      {
+        userId,
+        type: 'order_update',
+        title: 'Order #ORD-2024-15832 Out for Delivery',
+        message: 'Your order is out for delivery and will arrive between 8:00 AM - 12:00 PM today.',
+        read: true,
+        metadata: { orderId: 'ORD-2024-15832', status: 'out-for-delivery' },
+      },
+    ];
+
+    // Create notifications with staggered timestamps
+    demoNotifications.forEach((notification, index) => {
+      const notificationCopy = {
+        ...notification,
+        id: `demo-${userId}-${index}`,
+        createdAt: new Date(Date.now() - (index * 3600000) - (Math.random() * 3600000)), // Stagger by hours
+      };
+      this.notifications.unshift(notificationCopy);
+    });
   }
 
   /**

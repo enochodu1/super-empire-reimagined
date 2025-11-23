@@ -22,6 +22,9 @@ export const NotificationCenter = () => {
 
   useEffect(() => {
     if (user?.id) {
+      // Seed demo notifications for showcase
+      notificationService.seedDemoNotifications(user.id);
+
       loadNotifications();
       // In production, this would use WebSocket for real-time updates
       const interval = setInterval(loadNotifications, 10000); // Poll every 10 seconds

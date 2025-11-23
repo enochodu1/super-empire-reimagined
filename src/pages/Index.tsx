@@ -13,13 +13,16 @@ import { Newsletter } from "@/components/Newsletter";
 import { CTA } from "@/components/CTA";
 import { SocialMediaFeed } from "@/components/SocialMediaFeed";
 import { MobileAppLinks } from "@/components/MobileAppLinks";
+import { MobileAppShowcase } from "@/components/MobileAppShowcase";
 import { Footer } from "@/components/Footer";
+import { StatsCounter } from "@/components/StatsCounter";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
       <Hero />
+      <StatsCounter />
       <GlassFeatures />
       <Products />
       <SeasonalHighlights />
@@ -29,10 +32,10 @@ const Index = () => {
       <About />
       <Contact />
       <FAQ />
+      <MobileAppShowcase />
       <Newsletter />
       <div className="container mx-auto px-4 py-12 space-y-8">
         <SocialMediaFeed />
-        <MobileAppLinks />
       </div>
       <CTA />
       <Footer />
